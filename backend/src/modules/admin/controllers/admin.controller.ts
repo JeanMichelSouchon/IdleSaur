@@ -12,6 +12,47 @@ export class AdminController {
     this.adminService = adminService;
   }
 
+
+  // Récupérer la liste des utilisateurs créés lors de X dernieres semaines, et de leur dernieres connexions (delai par default 2semaines)
+  public getUsersCreatedLastWeeks = async (req: Request, res: Response) => {
+    try {
+      const weeks = req.params.weeks ? Number(req.params.weeks) : 2;
+      const users = await this.adminService.getUsersCreatedLastWeeks(weeks);
+      const usersDTO = users.map(user => plainToInstance(UserDTO, user));
+      res.status(200).json(usersDTO);
+      return;
+    }
+    catch (error) {
+      console.error('Erreur dans getUsersCreatedLastWeeks:', error);
+      res.status(500).json({ message: 'Erreur interne du serveur' });
+      return;
+    }
+  };
+
+  // version avec epxort directement dans la reponse
+  public exportUsersCreatedLastWeeks = async (req: Request, res: Response) => {
+    try {
+      const weeks = req.params.weeks ? Number(req.params.weeks) : 2;
+      const users = await this.adminService.getUsersCreatedLastWeeks(weeks);
+      const usersDTO = users.map(user => plainToInstance(UserDTO, user));
+  
+      // Générer le JSON (fichier temporaire en mémoire)
+      const jsonContent = JSON.stringify(usersDTO, null, 2);
+      const fileName = `users-last-${weeks}-weeks.json`;
+  
+      // Headers HTTP qui déclenchent automatiquement un téléchargement
+      res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
+      res.setHeader('Content-Type', 'application/json');
+      
+      // Envoie le JSON directement au navigateur/client
+      res.status(200).send(jsonContent);
+    } catch (error) {
+      console.error('Erreur lors de l\'export des utilisateurs:', error);
+      res.status(500).json({ message: 'Erreur interne du serveur' });
+    }
+  };
+
+  // Récupérer le tableau des niveaux avec les paliers d'experience
   public getLevelsXpTable = async (req: Request, res: Response) => {
     try {
       const levelsXp = [];
