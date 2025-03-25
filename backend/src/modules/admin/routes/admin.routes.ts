@@ -19,7 +19,14 @@ export default function (adminController: AdminController): Router {
   router.get('/users/username/:username', authenticateJWT, authorizeAdmin, (req, res) => adminController.getUserByUsername(req, res));
   router.get('/users/email/:email', authenticateJWT, authorizeAdmin, (req, res) => adminController.getUserByEmail(req, res));
   router.get('/users/:id', authenticateJWT, authorizeAdmin, (req, res) => adminController.getUserById(req, res));
+
+  // Ajout de la rotue pour la demande de modification// Route pour exporter et télécharger les utilisateurs créés durant les X dernières semaines
+  router.get('/users/export/last-weeks/:weeks?', authenticateJWT, authorizeAdmin, (req, res) => 
+    adminController.exportUsersCreatedLastWeeks(req, res)
+  );
+  
   router.delete('/users/:id', authenticateJWT, authorizeAdmin, (req, res) => adminController.deleteUser(req, res));
+
 
   // Routes pour la gestion des dinosaures
   router.get('/dinosaurs', authenticateJWT, authorizeAdmin, (req, res) => adminController.getAllDinosaurs(req, res));

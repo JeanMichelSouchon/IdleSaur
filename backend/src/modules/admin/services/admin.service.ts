@@ -6,6 +6,18 @@ export class AdminService {
 
   // -------- FONCTIONS RELATIVES AUX UTILISATEURS -------- //
 
+  // Récupérer les utilisateurs créés lors des X dernières semaines
+  public async getUsersCreatedLastWeeks(weeks: number = 2): Promise<User[]> {
+    try {
+      const [results] = await pool.query('SELECT * FROM user WHERE created_at >= DATE_SUB(NOW(), INTERVAL ? WEEK)', [weeks]);
+      return results as User[];
+    } catch (err) {
+      console.error('Erreur lors de la récupération des utilisateurs créés lors des X dernières semaines:', err);
+      throw err;
+    }
+  }
+  
+
   // Récupérer tous les utilisateurs
   public async getAllUsers(): Promise<User[]> {
     try {

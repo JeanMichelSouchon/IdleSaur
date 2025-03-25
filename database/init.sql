@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS user (
   email VARCHAR(255) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
   isAdmin BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  last_connection TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   -- Nouveaux attributs pour la gestion des points persistants entre vies
   neutral_soul_points INT NOT NULL DEFAULT 0,
   dark_soul_points INT NOT NULL DEFAULT 0,

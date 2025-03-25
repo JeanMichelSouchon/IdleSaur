@@ -78,6 +78,23 @@ export class AuthService {
   }
 
   /**
+   * Update user last connexion timestamp
+   * @param userId
+   */
+  private async updateUserLastConnexion(userId: number): Promise<boolean> {
+    try {
+      const query = 'UPDATE user SET last_connexion = NOW() WHERE id = ?';
+      const [result] = await pool.query(query, [userId]);
+      const resAny = result as any;
+      return resAny.affectedRows > 0;
+    }
+    catch (err) {
+      console.error('Erreur lors de la mise à jour de la date de connexion de l\'utilisateur:', err);
+      throw err;
+    }
+  }
+
+  /**
    * Récupère un utilisateur par son ID.
    */
   private async findUserById(userId: number): Promise<User | null> {
@@ -218,6 +235,8 @@ export class AuthService {
    */
   public async login(identifier: string, password: string): Promise<{ token: string; user: User }> {
     try {
+
+      // Verificati basique a amméliorer (pseudo ou mdp ?)
       const user = identifier.includes('@')
         ? await this.findUserByEmail(identifier)
         : await this.findUserByUsername(identifier);
@@ -229,6 +248,7 @@ export class AuthService {
         throw new Error('Identifiants invalides');
       }
       const token = this.generateToken(user);
+      await this.updateUserLastConnexion(user.id);
       return { token, user };
     } catch (error) {
       console.error('Erreur lors de la connexion:', error);
