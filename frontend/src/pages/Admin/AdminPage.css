@@ -1,4 +1,4 @@
-/* Conteneur dédié pour gérer le scroll interne des contenus */
+/* Conteneur dédié pour gérer le scroll interne des contenu */
    .content-wrapper {
     width: 100%;
     max-height: calc(100vh - 100px); /* Prend en compte l'espace pour Header et Footer */
