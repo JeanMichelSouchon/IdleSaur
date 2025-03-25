@@ -12,6 +12,20 @@ const AdminPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [levelsXp, setLevelsXp] = useState<{ level: number; xpRequired: number }[]>([]);
   const [epochThresholds, setEpochThresholds] = useState<{ epoch: string; threshold: number }[]>([]);
+  const [exportDuration, setExportDuration] = useState<number>(2);
+  const [exportUnit, setExportUnit] = useState<string>('weeks');
+
+  // Convertir la durée sélectionnée en semaines
+  const convertDurationToWeeks = (duration: number, unit: string): number => {
+    switch (unit) {
+      case 'months':
+        return duration * 4;
+      case 'years':
+        return duration * 52;
+      default:
+        return duration;
+    }
+  };
 
   // Récupère la liste des utilisateurs
   const fetchUsers = async () => {
@@ -77,15 +91,16 @@ const AdminPage: React.FC = () => {
 
   // Fonction pour déclencher le téléchargement de l'export des utilisateurs
   const downloadUsersExport = async () => {
+    const weeks = convertDurationToWeeks(exportDuration, exportUnit);
     try {
-      const response = await api.get('/admin/users/export/last-weeks/2', {
+      const response = await api.get(`/admin/users/export/last-weeks/${weeks}`, {
         responseType: 'blob'
       });
       const blob = new Blob([response.data], { type: 'application/json' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'users-last-2-weeks.json';
+      a.download = `users-last-${weeks}-weeks.json`;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -114,13 +129,27 @@ const AdminPage: React.FC = () => {
   return (
     <>
       <Header />
-      {/* Utilisation d'un conteneur dédié pour gérer le scroll interne */}
       <div className="content-wrapper">
         <div className="admin-page">
           <header>
             <h1>Gestion des utilisateurs</h1>
             <div className="header-actions">
               <a href="/" className="back-btn">Retour à l'accueil</a>
+              <div className="export-duration-selector">
+                <label htmlFor="exportDuration">Exporter les utilisateurs des </label>
+                <input
+                  type="number"
+                  id="exportDuration"
+                  value={exportDuration}
+                  min="1"
+                  onChange={(e) => setExportDuration(Number(e.target.value))}
+                />
+                <select value={exportUnit} onChange={(e) => setExportUnit(e.target.value)}>
+                  <option value="weeks">semaines</option>
+                  <option value="months">mois</option>
+                  <option value="years">années</option>
+                </select>
+              </div>
               <button className="export-btn" onClick={downloadUsersExport}>
                 Télécharger Export Utilisateurs
               </button>

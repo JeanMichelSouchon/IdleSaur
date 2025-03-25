@@ -1,7 +1,8 @@
-/* Conteneur dédié pour gérer le scroll interne des contenu */
+
+/* Conteneur dédié pour gérer le scroll interne des contenus */
    .content-wrapper {
     width: 100%;
-    max-height: calc(100vh - 100px); /* Prend en compte l'espace pour Header et Footer */
+    max-height: calc(100vh - 100px); /* Espace réservé pour Header et Footer */
     overflow-y: auto;
     padding: 20px;
     box-sizing: border-box;
@@ -62,6 +63,26 @@
   
   .export-btn:hover {
     background-color: #218838;
+  }
+  
+  /* Sélecteur de durée d'export */
+  .export-duration-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .export-duration-selector label {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .export-duration-selector input,
+  .export-duration-selector select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
   }
   
   /* Titres des sections */
@@ -187,7 +208,7 @@
     background-color: #e9ecef;
   }
   
-  /* Zones scrollables pour les tableaux avec hauteur fixe */
+  /* Zones scrollables pour les tableaux */
   #level-xp-table,
   #epoch-threshold-table {
     max-height: 300px;
