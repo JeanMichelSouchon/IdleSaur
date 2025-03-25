@@ -2,6 +2,7 @@ import { PlayerScoreDTO } from "./player-score.dto";
 
 export interface User {
     id: number;
+    isAdmin: boolean;
     username: string;
     email: string;
     neutral_soul_points: number;

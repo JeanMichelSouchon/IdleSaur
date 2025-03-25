@@ -10,8 +10,8 @@ const AdminPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedDinosaur, setSelectedDinosaur] = useState<Dinosaur | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [levelsXp, setLevelsXp] = useState<{ level: number, xpRequired: number }[]>([]);
-  const [epochThresholds, setEpochThresholds] = useState<{ epoch: string, threshold: number }[]>([]);
+  const [levelsXp, setLevelsXp] = useState<{ level: number; xpRequired: number }[]>([]);
+  const [epochThresholds, setEpochThresholds] = useState<{ epoch: string; threshold: number }[]>([]);
 
   // Récupère la liste des utilisateurs
   const fetchUsers = async () => {
@@ -53,7 +53,7 @@ const AdminPage: React.FC = () => {
       alert('Utilisateur supprimé avec succès');
       fetchUsers();
     } catch (error: any) {
-      console.error('Erreur lors de la suppression de l\'utilisateur:', error);
+      console.error("Erreur lors de la suppression de l'utilisateur:", error);
       alert(`Erreur lors de la suppression de l'utilisateur: ${error.response?.data?.message || 'Erreur interne.'}`);
     }
   };
@@ -81,17 +81,13 @@ const AdminPage: React.FC = () => {
       const response = await api.get('/admin/users/export/last-weeks/2', {
         responseType: 'blob'
       });
-      // Créer un blob à partir des données reçues
       const blob = new Blob([response.data], { type: 'application/json' });
-      // Générer une URL pour ce blob
       const url = window.URL.createObjectURL(blob);
-      // Créer un élément <a> pour déclencher le téléchargement
       const a = document.createElement('a');
       a.href = url;
       a.download = 'users-last-2-weeks.json';
       document.body.appendChild(a);
       a.click();
-      // Nettoyer : retirer l'élément et révoquer l'URL
       a.remove();
       window.URL.revokeObjectURL(url);
     } catch (error: any) {
@@ -111,93 +107,106 @@ const AdminPage: React.FC = () => {
     setSelectedDinosaur(null);
   };
 
+  const capitalizeFirstLetter = (string: string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   return (
     <>
-      <div className="Main">
-        <Header />
+      <Header />
+      {/* Utilisation d'un conteneur dédié pour gérer le scroll interne */}
+      <div className="content-wrapper">
         <div className="admin-page">
           <header>
             <h1>Gestion des utilisateurs</h1>
-            <a href="/" className="back-btn">Retour à l'accueil</a>
-            {/* Bouton pour déclencher le téléchargement de l'export */}
-            <button className="export-btn" onClick={downloadUsersExport}>
-              Télécharger Export Utilisateurs
-            </button>
+            <div className="header-actions">
+              <a href="/" className="back-btn">Retour à l'accueil</a>
+              <button className="export-btn" onClick={downloadUsersExport}>
+                Télécharger Export Utilisateurs
+              </button>
+            </div>
           </header>
 
           <section id="user-management">
-            <table id="user-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nom d'utilisateur</th>
-                  <th>Email</th>
-                  <th>Date de création</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map(user => (
-                  <tr key={user.id}>
-                    <td>{user.id}</td>
-                    <td>{user.username}</td>
-                    <td>{user.email}</td>
-                    <td>{new Date(user.created_at).toLocaleDateString()}</td>
-                    <td>
-                      <button className="action-btn delete" onClick={() => deleteUser(user.id)}>Supprimer</button>
-                      <button className="action-btn update" onClick={() => alert(`Fonction de mise à jour de l'utilisateur avec ID ${user.id} non encore implémentée.`)}>Modifier</button>
-                      <button className="action-btn view-dino" onClick={() => viewDinosaur(user.id)}>Voir Dinosaure</button>
-                    </td>
+            <h2>Liste des utilisateurs</h2>
+            <div className="table-container">
+              <table id="user-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nom d'utilisateur</th>
+                    <th>Email</th>
+                    <th>Date de création</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {users.map(user => (
+                    <tr key={user.id}>
+                      <td>{user.id}</td>
+                      <td>{user.username}</td>
+                      <td>{user.email}</td>
+                      <td>{new Date(user.created_at).toLocaleDateString()}</td>
+                      <td>
+                        <button className="action-btn delete" onClick={() => deleteUser(user.id)}>Supprimer</button>
+                        <button className="action-btn update" onClick={() => alert(`Fonction de mise à jour de l'utilisateur avec ID ${user.id} non encore implémentée.`)}>Modifier</button>
+                        <button className="action-btn view-dino" onClick={() => viewDinosaur(user.id)}>Voir Dinosaure</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </section>
 
           <section id="level-xp-table">
             <h2>Table des niveaux et paliers d'expérience</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Niveau</th>
-                  <th>XP Requis</th>
-                </tr>
-              </thead>
-              <tbody>
-                {levelsXp.map(({ level, xpRequired }) => (
-                  <tr key={level}>
-                    <td>{level}</td>
-                    <td>{xpRequired}</td>
+            <div className="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Niveau</th>
+                    <th>XP Requis</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {levelsXp.map(({ level, xpRequired }) => (
+                    <tr key={level}>
+                      <td>{level}</td>
+                      <td>{xpRequired}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </section>
 
           <section id="epoch-threshold-table">
             <h2>Table des époques et leurs seuils</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Époque</th>
-                  <th>Durée de l'Époque (secondes)</th>
-                  <th>Seuil cumulé (secondes)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {epochThresholds.map(({ epoch, threshold }, index) => {
-                  const previousThreshold = index > 0 ? epochThresholds[index - 1].threshold : 0;
-                  const duration = threshold != null && previousThreshold != null ? threshold - previousThreshold : null;
-                  return (
-                    <tr key={epoch}>
-                      <td>{epoch}</td>
-                      <td>{duration !== null ? duration.toFixed(2) : 'Non défini'}</td>
-                      <td>{threshold !== null ? threshold.toFixed(2) : 'Non défini'}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <div className="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Époque</th>
+                    <th>Durée de l'Époque (secondes)</th>
+                    <th>Seuil cumulé (secondes)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {epochThresholds.map(({ epoch, threshold }, index) => {
+                    const previousThreshold = index > 0 ? epochThresholds[index - 1].threshold : 0;
+                    const duration = threshold != null && previousThreshold != null ? threshold - previousThreshold : null;
+                    return (
+                      <tr key={epoch}>
+                        <td>{epoch}</td>
+                        <td>{duration !== null ? duration.toFixed(2) : 'Non défini'}</td>
+                        <td>{threshold !== null ? threshold.toFixed(2) : 'Non défini'}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </section>
 
           {isModalOpen && selectedDinosaur && (
@@ -217,14 +226,10 @@ const AdminPage: React.FC = () => {
             </div>
           )}
         </div>
-        <Footer />
       </div>
+      <Footer />
     </>
   );
-};
-
-const capitalizeFirstLetter = (string: string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 export default AdminPage;

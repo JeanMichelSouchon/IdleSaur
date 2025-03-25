@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import Header from '../../components/Common/Header';
+import Footer from '../../components/Common/Footer';
 import { fetchDinosaurActions, getNextLevelXp } from '../../services/dinosaurService';
 import DinosaurInfo from '../../components/Dashboard/DinosaurInfo';
 import Actions, { ActionDetail } from '../../components/Dashboard/Actions';
 import EventOverlay from '../../components/Dashboard/EventOverlay';
-import Header from '../../components/Common/Header';
-import Footer from '../../components/Common/Footer';
 import './DashboardPage.css';
 import { User } from '../../types/User';
 import { Dinosaur } from '../../types/Dinosaur';
@@ -29,16 +30,17 @@ import DinoSoulOverlay from '../../components/Dashboard/overlays/DinoSoulOverlay
 const DashboardPage: React.FC = () => {
     // États pour stocker les informations de l'utilisateur et du dinosaure
     const [user, setUser] = useState<User | null>(null);
-    const [max_experience, setMAX_XP] = useState<number>(0);
+    const [maxExperience, setMaxExperience] = useState<number>(0);
     const [dinosaur, setDinosaur] = useState<Dinosaur | null>(null);
-    const [availableActions, setAvailableActions] = useState<ActionDetail[]>([]); // État pour les actions
-    const [lastEvent, setLastEvent] = useState<DinosaurEvent | null>(null); // État pour l'événement affiché
-    const [isOverlayVisible, setIsOverlayVisible] = useState<boolean>(false); // Overlay pour les infos du dinosaure en mobile
-    const [isActionInProgress, setIsActionInProgress] = useState<ActionDetail | null>(null); // État pour l'animation du dinosaure
+    const [availableActions, setAvailableActions] = useState<ActionDetail[]>([]);
+    const [lastEvent, setLastEvent] = useState<DinosaurEvent | null>(null);
+    const [isOverlayVisible, setIsOverlayVisible] = useState<boolean>(false);
+    const [isActionInProgress, setIsActionInProgress] = useState<ActionDetail | null>(null);
     const [levelUp, setLevelUp] = useState<boolean>(false);
-  
+
     // Récupération du contexte d'overlays (pour Inventaire, Bâtiments, Shop, etc.)
     const { currentOverlay, closeOverlay, openOverlay, statDetailTarget } = useOverlay();
+    const navigate = useNavigate();
 
     const initializePage = async () => {
         try {
@@ -48,21 +50,17 @@ const DashboardPage: React.FC = () => {
             const fetchedDinosaur = await fetchDinosaurFromBackend();
             // Récupération des actions disponibles depuis le backend
             const fetchedActions = await fetchDinosaurActions();
-
             // Récupération de l'expérience maximale du prochain niveau
             const maxExperienceResponse = await getNextLevelXp();
-            // Supposons que l'API retourne un objet { nextLevelXp: 1000 }
-            // Extraire directement la valeur numérique
-            const maxExperience = maxExperienceResponse.nextLevelXp;
 
             // Mise à jour des états avec les données récupérées
-            setMAX_XP(maxExperience);
             setUser(fetchedUser);
             setDinosaur(fetchedDinosaur);
             setAvailableActions(fetchedActions.availableActions);
+            setMaxExperience(maxExperienceResponse.nextLevelXp);
         } catch (error) {
             console.error("Erreur lors de l'initialisation de la page :", error);
-            // Optionnel : Rediriger vers la page d'accueil ou afficher un message d'erreur
+            // Optionnel : rediriger ou afficher une alerte
         }
     };
 
@@ -74,7 +72,7 @@ const DashboardPage: React.FC = () => {
             const updatedDinosaur = await fetchDinosaurFromBackend();
             const updatedActions = await fetchDinosaurActions();
             const maxExperienceResponse = await getNextLevelXp();
-            const maxExperience = maxExperienceResponse.nextLevelXp;
+            const maxXP = maxExperienceResponse.nextLevelXp;
 
             if (dinosaur && updatedDinosaur.level > dinosaur.level) {           
                 setDinosaur(updatedDinosaur);
@@ -86,7 +84,7 @@ const DashboardPage: React.FC = () => {
 
             setDinosaur(updatedDinosaur);
             setAvailableActions(updatedActions.availableActions);
-            setMAX_XP(maxExperience);
+            setMaxExperience(maxXP);
         } catch (error) {
             console.error('Erreur lors de la mise à jour des données du dinosaure :', error);
         }
@@ -126,7 +124,7 @@ const DashboardPage: React.FC = () => {
             refreshDinosaur();
         }, 1100);
         return () => clearInterval(interval);
-    }, []);
+    }, [isActionInProgress, levelUp, dinosaur]);
 
     // Calcul de l'expérience actuelle pour la jauge
     const experience = dinosaur ? dinosaur.experience : 0;
@@ -148,8 +146,23 @@ const DashboardPage: React.FC = () => {
             <div id="main">
                 {/* Section Infos contenant les informations de l'utilisateur et du dinosaure */}
                 <div id="Infos" className="desktop-only">
+                    {user && (
+                        <div className="user-info">
+                            <p>Bienvenue, {user.username} !</p>
+                            {/* Bouton d'accès à l'administration pour les utilisateurs admin */}
+                            {user.isAdmin && (
+                                <button
+                                    className="admin-access-btn"
+                                    onClick={() => navigate('/admin')}
+                                >
+                                    Accéder à l'administration
+                                </button>
+                            )}
+                        </div>
+                    )}
                     {dinosaur && <DinosaurInfo dinosaur={dinosaur} />}
                 </div>
+
                 {/* Section Middle contenant la barre XP et l'image du dinosaure */}
                 <div id="Middle">
                     <div className="topMiddle">
@@ -157,10 +170,9 @@ const DashboardPage: React.FC = () => {
                         <Gauge_XP
                             label={`level: ${dinosaur ? dinosaur.level : "NaN"}`}
                             current={experience}
-                            max={max_experience}
+                            max={maxExperience}
                             color="blue"
                         />
-                
                         {/* Bouton pour afficher l'overlay en mode mobile */}
                         <button
                             className="mobile-only overlay-button"
@@ -170,50 +182,45 @@ const DashboardPage: React.FC = () => {
                         </button>
                     </div>
                     <div className="bottomMiddle" style={{ position: 'relative' }}>
-                        {/* Insertion des icones de toogle d'overlays */}
+                        {/* Insertion des icônes de toggle d'overlays */}
                         {dinosaur && (
                             <div className="overlay-icons-bar">
-
-                            {/* 1) Dino Soul Overlay */}
-                            <span
-                                className="overlay-icon"
-                                onClick={() => openOverlay('dino-soul')}
-                                title="Dino Soul"
-                            >
-                                💀
-                            </span>
-
-                            {/* 2) Inventaire */}
-                            <span
-                                className="overlay-icon"
-                                onClick={() => openOverlay('inventory')}
-                                title="Inventaire"
-                            >
-                                👜
-                            </span>
-
-                            {/* 3) Bâtiments */}
-                            <span
-                                className="overlay-icon"
-                                onClick={() => openOverlay('buildings')}
-                                title="Bâtiments"
-                            >
-                                🏠
-                            </span>
-
-                            {/* 4) Shop */}
-                            <span
-                                className="overlay-icon"
-                                onClick={() => openOverlay('shop')}
-                                title="Boutique"
-                            >
-                                🛒
-                            </span>
+                                {/* 1) Dino Soul Overlay */}
+                                <span
+                                    className="overlay-icon"
+                                    onClick={() => openOverlay('dino-soul')}
+                                    title="Dino Soul"
+                                >
+                                    💀
+                                </span>
+                                {/* 2) Inventaire */}
+                                <span
+                                    className="overlay-icon"
+                                    onClick={() => openOverlay('inventory')}
+                                    title="Inventaire"
+                                >
+                                    👜
+                                </span>
+                                {/* 3) Bâtiments */}
+                                <span
+                                    className="overlay-icon"
+                                    onClick={() => openOverlay('buildings')}
+                                    title="Bâtiments"
+                                >
+                                    🏠
+                                </span>
+                                {/* 4) Shop */}
+                                <span
+                                    className="overlay-icon"
+                                    onClick={() => openOverlay('shop')}
+                                    title="Boutique"
+                                >
+                                    🛒
+                                </span>
                             </div>
                         )}
-                        {/* La div "middleContent" reçoit un style inline pour position relative */}
                         <div className="middleContent">
-                            {/* Affichage conditionnel de l'image du dinosaure selon son régime alimentaire et son type */}
+                            {/* Affichage conditionnel de l'image du dinosaure */}
                             {dinosaur && (
                                 <DinoDisplay 
                                     dinosaur={dinosaur} 
@@ -227,16 +234,16 @@ const DashboardPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
+
                 {/* Section Actions */}
                 <div id="Actions">
-                    {/* Affichage conditionnel du composant Actions */}
                     {dinosaur && (
                         <Actions
                             dinosaur={dinosaur}
                             refreshDinosaur={refreshDinosaur}
                             availableActions={availableActions}
                             onActionEvent={handleEventDisplay}
-                            onActionStart={handleActionStart} // Nouvelle prop
+                            onActionStart={handleActionStart}
                         />
                     )}
                 </div>
@@ -258,7 +265,7 @@ const DashboardPage: React.FC = () => {
                 </div>
             )}
 
-            {/* Overlay pour afficher les informations des viues passées du dino (DinoSoulOverlay) */}
+            {/* Overlays déclenchés via le Header */}
             {currentOverlay === 'dino-soul' && dinosaur && (
                 <DinoSoulOverlay 
                   dinosaur={dinosaur} 
@@ -266,8 +273,6 @@ const DashboardPage: React.FC = () => {
                   active={true}
                 />
             )}
-            
-            {/* Nouveaux overlays déclenchés via le Header */}
             {currentOverlay === 'inventory' && dinosaur && (
                 <InventoryOverlay 
                   dinosaur={dinosaur}
@@ -292,15 +297,12 @@ const DashboardPage: React.FC = () => {
                   user={user}
                 />
             )}
-            
             {currentOverlay === 'ranking' && dinosaur && (
                 <RankingOverlay onClose={closeOverlay} active />
             )}
-
             {currentOverlay === 'pvp' && dinosaur && (
                 <PvpOverlay onClose={closeOverlay} active />
             )}
-
             {currentOverlay === 'stat-detail' && dinosaur && statDetailTarget && (
                 <ClickableStatDetailOverlay 
                   dinosaur={dinosaur} 

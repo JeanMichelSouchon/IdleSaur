@@ -1,0 +1,4 @@
+USE iddlesaur;
+
+ALTER TABLE user
+ADD COLUMN last_connection TIMESTAMP DEFAULT CURRENT_TIMESTAMP;

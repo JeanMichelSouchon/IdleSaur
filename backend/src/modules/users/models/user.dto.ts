@@ -11,6 +11,9 @@ export class UserDTO {
   id!: number;
 
   @Expose()
+  isAdmin!: boolean;
+
+  @Expose()
   username!: string;
 
   @Expose()
@@ -29,6 +32,9 @@ export class UserDTO {
   @Expose()
   created_at!: Date;
 
+  @Expose()
+  last_connexion!: Date;
+  
   /**
    * Score global du joueur, stocké en base sous forme de JSON.
    * On l’expose ici en tant que PlayerScoreDTO pour pouvoir l’exploiter directement.

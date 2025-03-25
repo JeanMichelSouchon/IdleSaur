@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import pool from '../../../common/database/db';
 import { User } from '../../users/models/user.interface';
+import { plainToClass } from 'class-transformer';
 
 dotenv.config();
 
@@ -168,7 +169,7 @@ export class AuthService {
       if (!process.env.JWT_SECRET) {
         throw new Error('JWT_SECRET est manquant dans les variables d\'environnement');
       }
-      return jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      return jwt.sign({ id: user.id, email: user.email, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: '1h' });
     } catch (error) {
       console.error('Erreur lors de la génération du token JWT:', error);
       throw new Error('Erreur interne du serveur');

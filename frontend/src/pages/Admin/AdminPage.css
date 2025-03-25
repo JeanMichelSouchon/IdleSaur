@@ -1,145 +1,202 @@
-/* Style général de la page d'administration */
-.admin-page {
+/* Conteneur dédié pour gérer le scroll interne des contenus */
+   .content-wrapper {
+    width: 100%;
+    max-height: calc(100vh - 100px); /* Prend en compte l'espace pour Header et Footer */
+    overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  /* Conteneur principal de la page d'administration */
+  .admin-page {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.admin-page header {
+  }
+  
+  /* Header et actions */
+  .admin-page header {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
-}
-
-.admin-page h1 {
+  }
+  
+  .admin-page header h1 {
     font-size: 2rem;
     color: #333;
-}
-
-.back-btn {
+    margin-bottom: 10px;
+  }
+  
+  .header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .back-btn, .export-btn {
     text-decoration: none;
     padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
     border-radius: 4px;
     transition: background-color 0.3s ease;
-}
-
-.back-btn:hover {
+    color: #fff;
+  }
+  
+  .back-btn {
+    background-color: #007bff;
+  }
+  
+  .back-btn:hover {
     background-color: #0056b3;
-}
-
-/* Table des utilisateurs */
-#user-management {
-    margin-top: 20px;
-
-}
-
-#user-table {
+  }
+  
+  .export-btn {
+    background-color: #28a745;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .export-btn:hover {
+    background-color: #218838;
+  }
+  
+  /* Titres des sections */
+  .admin-page section h2 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Conteneur des tableaux */
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Table des utilisateurs */
+  #user-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
-    
-}
-
-#user-table th,
-#user-table td {
-    border: 1px solid #ddd;
+  }
+  
+  #user-table th,
+  #user-table td {
     padding: 10px;
     text-align: center;
-    border: 1px solid black;
-}
-
-#user-table th {
+    border: 1px solid #ddd;
+    background-color: #fff;
+  }
+  
+  #user-table th {
     background-color: #007bff;
     color: #fff;
     font-weight: bold;
-}
-
-#user-table tr:nth-child(even) {
+  }
+  
+  #user-table tr:nth-child(even) {
     background-color: #f2f2f2;
-}
-
-#user-table tr:hover {
-    background-color: #ddd;
-}
-
-.action-btn {
+  }
+  
+  #user-table tr:hover {
+    background-color: #e0e0e0;
+  }
+  
+  /* Boutons d'action */
+  .action-btn {
     padding: 5px 10px;
-    margin: 0 5px;
+    margin: 2px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     color: #fff;
     transition: background-color 0.3s ease;
-}
-
-.action-btn.delete {
+  }
+  
+  .action-btn.delete {
     background-color: #dc3545;
-}
-
-.action-btn.delete:hover {
+  }
+  
+  .action-btn.delete:hover {
     background-color: #c82333;
-}
-
-.action-btn.update {
+  }
+  
+  .action-btn.update {
     background-color: #ffc107;
     color: #333;
-}
-
-.action-btn.update:hover {
+  }
+  
+  .action-btn.update:hover {
     background-color: #e0a800;
-}
-
-.action-btn.view-dino {
+  }
+  
+  .action-btn.view-dino {
     background-color: #28a745;
-}
-
-.action-btn.view-dino:hover {
+  }
+  
+  .action-btn.view-dino:hover {
     background-color: #218838;
-}
-
-/* Table des niveaux */
-#level-xp-table {
-    margin-top: 40px;
-    height: 200px;
-    overflow-y: auto;
-    border: 1px solid black;
-}
-
-#level-xp-table table {
+  }
+  
+  /* Table des niveaux XP et des époques */
+  #level-xp-table table,
+  #epoch-threshold-table table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-#level-xp-table th,
-#level-xp-table td {
-    border: 1px solid #ddd;
+  }
+  
+  #level-xp-table th,
+  #level-xp-table td,
+  #epoch-threshold-table th,
+  #epoch-threshold-table td {
     padding: 8px;
     text-align: center;
-}
-
-#level-xp-table th {
+    border: 1px solid #ddd;
+    background-color: #fff;
+  }
+  
+  #level-xp-table th {
     background-color: #343a40;
     color: #fff;
     font-weight: bold;
-}
-
-#level-xp-table tr:nth-child(even) {
+  }
+  
+  #epoch-threshold-table th {
+    background-color: #6c757d;
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  #level-xp-table tr:nth-child(even),
+  #epoch-threshold-table tr:nth-child(even) {
     background-color: #f8f9fa;
-}
-
-#level-xp-table tr:hover {
+  }
+  
+  #level-xp-table tr:hover,
+  #epoch-threshold-table tr:hover {
     background-color: #e9ecef;
-}
-
-/* Modal */
-.modal {
+  }
+  
+  /* Zones scrollables pour les tableaux avec hauteur fixe */
+  #level-xp-table,
+  #epoch-threshold-table {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+  }
+  
+  /* Modal */
+  .modal {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -148,31 +205,31 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0,0,0,0.7);
     z-index: 1000;
-}
-
-.modal-content {
+  }
+  
+  .modal-content {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     width: 90%;
     max-width: 600px;
     position: relative;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.modal-content h2 {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+  
+  .modal-content h2 {
     margin-top: 0;
     font-size: 1.5rem;
     color: #333;
-}
-
-.modal-content p {
+  }
+  
+  .modal-content p {
     margin-bottom: 10px;
-}
-
-.close {
+  }
+  
+  .close {
     position: absolute;
     top: 10px;
     right: 15px;
@@ -180,62 +237,17 @@
     cursor: pointer;
     color: #333;
     transition: color 0.3s ease;
-}
-
-.close:hover {
+  }
+  
+  .close:hover {
     color: #dc3545;
-}
-
-/* Fond de la page */
-.Main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    position: relative; 
-    text-align: center;
-    overflow: hidden;
-    margin: 0;
-    font-family: 'Peanut', sans-serif;
-    font-size: 1.2rem;
-    background-image: url('../../../public/assets/img/Cybercity.jpg'); /* Chemin relatif à partir de HomePage.css */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-/* Section des seuils des époques */
-#epoch-threshold-table {
-    margin-top: 40px;
-    height: 200px;
-    overflow-y: auto;
-    border: 1px solid black;
-}
-
-#epoch-threshold-table table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-#epoch-threshold-table th,
-#epoch-threshold-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
-
-#epoch-threshold-table th {
-    background-color: #6c757d;
-    color: #fff;
-    font-weight: bold;
-}
-
-#epoch-threshold-table tr:nth-child(even) {
-    background-color: #f8f9fa;
-}
-
-#epoch-threshold-table tr:hover {
-    background-color: #e9ecef;
-}
+  }
+  
+  /* Ajustements responsive */
+  @media screen and (max-width: 768px) {
+    .header-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
