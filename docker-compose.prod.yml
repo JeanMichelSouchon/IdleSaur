@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  backend:
+    image: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/iddlesaur-backend:${TAG}"
+    env_file:
+      - .env.prod
+
+  frontend:
+    image: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/iddlesaur-frontend:${TAG}"
+    env_file:
+      - .env.prod

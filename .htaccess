@@ -1,5 +1,0 @@
-RewriteEngine on
- 
-# Si l'URL est exactement la racine, rediriger vers le sous-dossier "frontend"
-RewriteRule ^/$ /frontend/index.html [R=301,L]
-

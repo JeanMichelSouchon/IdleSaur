@@ -13,5 +13,6 @@ export enum DinosaurAction {
     Dive = 'dive',
     Fly = 'fly',
     Dig = 'dig',
+    Kill = 'kill',
   }
   

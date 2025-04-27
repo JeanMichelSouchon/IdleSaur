@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  mariadb:
+    image: mariadb:10.5
+    env_file:
+      - .env.dev
+    volumes:
+      - ./database/datas:/var/lib/mysql
+    ports:
+      - "3307:3306"
+
+  backend:
+    build: ./backend
+    env_file:
+      - .env.dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mariadb
+
+  frontend:
+    build: ./frontend
+    env_file:
+      - .env.dev
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+networks:
+  default:
+    driver: bridge
