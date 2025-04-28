@@ -7,41 +7,6 @@ import { User } from '../../users/models/user.interface';
 dotenv.config();
 
 export class AuthService {
-
-  /**
-   * Popule l'administrateur par défaut si celui-ci n'existe pas.
-   * Récupère les identifiants depuis les variables d'environnement,
-   * génère un email au format `${adminName}@game.fr` et crée l'utilisateur admin.
-   */
-  public async populateDefaultAdmins(): Promise<void> {
-    try {
-      const adminName = process.env.DEFAULT_ADMIN_NAME;
-      const adminPassword = process.env.DEFAULT_ADMIN_PASSWORD;
-      if (!adminName || !adminPassword) {
-        console.error('Les variables d\'environnement pour l\'admin ne sont pas définies.');
-        return;
-      }
-      const adminEmail = `${adminName}@game.fr`.toLowerCase();
-
-      // Vérifier si l'admin existe déjà
-      const existingAdmin = await this.findUserByEmail(adminEmail);
-      if (existingAdmin) {
-        console.log('L\'admin existe déjà, aucun peuplement nécessaire.');
-        return;
-      }
-
-      // Hacher le mot de passe
-      const passwordHash = await this.hashPassword(adminPassword);
-
-      // Créer l'admin en utilisant la fonction habituelle
-      const adminId = await this.createUser(adminName, adminEmail, passwordHash, true);
-      console.log(`Admin créé avec succès, id : ${adminId}`);
-    } catch (error) {
-      console.error('Erreur lors du peuplement de l\'admin :', error);
-      throw error;
-    }
-  }
-
   /**
    * Crée un nouvel utilisateur en base et retourne son ID.
    * @param username Le pseudo de l'utilisateur.
@@ -49,30 +14,14 @@ export class AuthService {
    * @param passwordHash Le mot de passe hashé.
    * @param isAdmin Indique si l'utilisateur est administrateur.
    */
-  private async createUser(username: string, email: string, passwordHash: string, isAdmin: boolean = false): Promise<number> {
+  private async createUser(username: string, email: string, passwordHash: string, isAdmin: boolean = true): Promise<number> {
     try {
-      const neutralSoulPoints = isAdmin ? 10000 : 0;
-      const darkSoulPoints = isAdmin ? 10000 : 0;
-      const brightSoulPoints = isAdmin ? 10000 : 0;
-  
-      const query = `
-        INSERT INTO user (
-          username, email, password_hash, isAdmin,
-          neutral_soul_points, dark_soul_points, bright_soul_points
-        ) VALUES (?, ?, ?, ?, ?, ?, ?)
-      `;
-      const [result] = await pool.query(query, [
-        username,
-        email,
-        passwordHash,
-        isAdmin,
-        neutralSoulPoints,
-        darkSoulPoints,
-        brightSoulPoints,
-      ]);
-      return (result as any).insertId;
+      const query = 'INSERT INTO user (username, email, password_hash, isAdmin) VALUES (?, ?, ?, ?)';
+      const [result] = await pool.query(query, [username, email, passwordHash, isAdmin]);
+      const resAny = result as any;
+      return resAny.insertId;
     } catch (err) {
-      console.error("Erreur lors de la création de l'utilisateur:", err);
+      console.error('Erreur lors de la création de l\'utilisateur:', err);
       throw err;
     }
   }

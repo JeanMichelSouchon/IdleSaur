@@ -217,7 +217,7 @@ export const discoverEvents: DynamicEventData[] = [
     id: 0,
     name: "Découverte universelle",
     actionType: DinosaurAction.Discover,
-    minLevel: 10,
+    minLevel: 20,
     positivityScore: 8,
     weight: 1,
     descriptions: [
@@ -261,7 +261,7 @@ export const discoverEvents: DynamicEventData[] = [
     id: 0,
     name: "Découverte ultime",
     actionType: DinosaurAction.Discover,
-    minLevel: 10,
+    minLevel: 25,
     positivityScore: 10,
     weight: 1,
     descriptions: [
@@ -318,7 +318,7 @@ export const discoverEvents: DynamicEventData[] = [
     baseModifiers: [
       {
         source: "discover",
-        target: "experience",
+        target: "money",
         base_value: 500,
         additiveStep: 10,
         additiveIncrement: 500,
@@ -353,7 +353,7 @@ export const discoverEvents: DynamicEventData[] = [
     baseModifiers: [
       {
         source: "discover",
-        target: "experience",
+        target: "money",
         base_value: 1000,
         additiveStep: 10,
         additiveIncrement: 2000,
@@ -388,7 +388,7 @@ export const discoverEvents: DynamicEventData[] = [
     baseModifiers: [
       {
         source: "discover",
-        target: "experience",
+        target: "skillPoints",
         base_value: 0,
         additiveStep: 5,
         additiveIncrement: 10,
@@ -401,162 +401,6 @@ export const discoverEvents: DynamicEventData[] = [
         base_value: -ENERGY_COST_TO_DISCOVER,
         additiveStep: 0,
         additiveIncrement: -ENERGY_COST_TO_DISCOVER,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      }
-    ]
-  },
-  {
-    id: 0,
-    name: "Rencontre amicale",
-    actionType: DinosaurAction.Discover,
-    minLevel: 5,
-    positivityScore: 5,
-    weight: 10,
-    descriptions: [
-      "Au détour d'une aventure, le dinosaure fait la rencontre d'un ami inattendu.",
-      "Une amitié naissante éclaire son chemin, apportant chaleur et soutien.",
-      "Dans un moment fortuit, il trouve un compagnon de route pour partager ses exploits.",
-      "Un sourire échangé et une poignée de main qui scellent une nouvelle alliance.",
-      "L'instant magique où un simple regard suffit pour forger une amitié sincère."
-    ],
-    baseModifiers: [
-      {
-        source: "discover",
-        target: "experience",
-        base_value: 1,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      }
-    ]
-  },
-  {
-    id: 0,
-    name: "Fête d'amitié",
-    actionType: DinosaurAction.Discover,
-    minLevel: 10,
-    positivityScore: 10,
-    weight: 3,
-    descriptions: [
-      "Dans une explosion de joie, le dinosaure se retrouve entouré de nouveaux amis.",
-      "Une rencontre exceptionnelle qui se transforme en une véritable fête amicale.",
-      "Le hasard fait bien les choses : une avalanche d'amis se joint à lui dans son aventure.",
-      "Un moment de pure euphorie où les liens se tissent spontanément et durablement.",
-      "Une célébration inattendue qui enrichit son parcours de complicités sincères."
-    ],
-    baseModifiers: [
-      {
-        source: "discover",
-        target: "experience",
-        base_value: 5,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      }
-    ]
-  },
-  {
-    id: 0,
-    name: "Arme trouvée",
-    actionType: DinosaurAction.Discover,
-    minLevel: 5,
-    positivityScore: 3,
-    weight: 10,
-    descriptions: [
-      "Au cours d'une exploration, le dinosaure met la main sur une arme intrigante.",
-      "Une trouvaille surprenante qui ajoute un atout inattendu à son arsenal.",
-      "Un éclat métallique dans le sol révèle une arme oubliée, prête à être utilisée.",
-      "L'aventure lui sourit en lui offrant une arme d'un charme ancien et redoutable.",
-      "Une découverte inattendue qui renforce sa puissance avec une arme unique."
-    ],
-    baseModifiers: [
-      {
-        source: "discover",
-        target: "experience",
-        base_value: 1,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      }
-    ]
-  },
-  {
-    id: 0,
-    name: "Cachette d'armes",
-    actionType: DinosaurAction.Discover,
-    minLevel: 10,
-    positivityScore: 5,
-    weight: 3,
-    descriptions: [
-      "En fouillant une zone reculée, le dinosaure découvre une planque secrète d'armes.",
-      "Un trésor caché renferme pas moins de cinq armes prêtes à faire des étincelles.",
-      "Une cachette bien gardée dévoile un arsenal impressionnant, signe d'une grande aventure.",
-      "Les mystères du terrain se dévoilent en révélant une réserve d'armes redoutables.",
-      "Un coup de chance incroyable : une planque d'armes qui booste son potentiel de combat."
-    ],
-    baseModifiers: [
-      {
-        source: "discover",
-        target: "experience",
-        base_value: 5,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      }
-    ]
-  },
-  {
-    id: 0,
-    name: "Armure trouvée",
-    actionType: DinosaurAction.Discover,
-    minLevel: 5,
-    positivityScore: 3,
-    weight: 10,
-    descriptions: [
-      "Lors d'une exploration, le dinosaure déniche une armure d'apparat inattendue.",
-      "Un éclat de métal révèle une armure qui pourrait bien changer le cours de ses batailles.",
-      "Une pièce rare d'armure se trouve, ajoutant une touche de robustesse à son équipement.",
-      "Un objet précieux se dévoile, une armure qui allie élégance et protection.",
-      "La chance sourit au dinosaure qui découvre une armure aux vertus étonnantes."
-    ],
-    baseModifiers: [
-      {
-        source: "discover",
-        target: "experience",
-        base_value: 1,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      }
-    ]
-  },
-  {
-    id: 0,
-    name: "Cachette d'armures",
-    actionType: DinosaurAction.Discover,
-    minLevel: 10,
-    positivityScore: 7,
-    weight: 3,
-    descriptions: [
-      "En creusant au fin fond d'un ancien repaire, le dinosaure découvre une réserve d'armures légendaires.",
-      "Une cache secrète dévoile cinq armures robustes, prêtes à parer toutes les attaques.",
-      "Un trésor bien gardé offre une série d'armures, signe d'une grande destinée.",
-      "La fortune sourit en révélant une planque d'armures qui renforcent sa défense.",
-      "Une découverte épique : une cachette d'armures qui promet de transformer son destin."
-    ],
-    baseModifiers: [
-      {
-        source: "discover",
-        target: "experience",
-        base_value: 5,
-        additiveStep: 0,
-        additiveIncrement: 0,
         multiplicativeStep: 0,
         multiplicativeIncrement: 0
       }

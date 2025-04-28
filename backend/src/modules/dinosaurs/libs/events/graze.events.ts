@@ -96,7 +96,7 @@ export const grazeEvents: DynamicEventData[] = [
     name: 'Cueillette difficile',
     actionType: DinosaurAction.Graze,
     minLevel: 0,
-    positivityScore: -3,
+    positivityScore: -2,
     weight: 15,
     descriptions: [
       "La récolte est laborieuse et la prise est minime.",
@@ -141,7 +141,7 @@ export const grazeEvents: DynamicEventData[] = [
     actionType: DinosaurAction.Graze,
     minLevel: 0,
     positivityScore: -7,
-    weight: 15,
+    weight: 20,
     descriptions: [
       "Le dinosaure tente sa chance, mais ne parvient à rien récolter.",
       "Un échec total, la nature reste farouche et rien ne se cueille.",

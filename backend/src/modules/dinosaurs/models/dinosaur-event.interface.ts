@@ -8,6 +8,6 @@ export interface DinosaurEvent {
     actionType: DinosaurAction; // Utilisation de l'enum existante
     minLevel: number;
     weight: number;
-    positivityScore: number; // Valeur négative pour un effet négatif, positive pour un effet positif bornée en -10 et +10
+    positivityScore: number; // Valeur négative pour un effet négatif, positive pour un effet positif
     modifiers: EventModifier[];
 }

@@ -101,7 +101,7 @@ export class BasicActionsController {
     public resurrectDinosaur = async (req: AuthenticatedRequest, res: Response) => {
         try {
             const userId = req.user?.id;
-            if (!req.user || !userId) {
+            if (!userId) {
                 res.status(400).json({ message: 'Utilisateur non authentifié' });
                 return;
             }
@@ -117,7 +117,7 @@ export class BasicActionsController {
                 return;
             }
 
-            const { dinosaur: updatedDino, event } = await this.basicActionsService.resurrectDinosaur(dinosaur, req.user.isAdmin);
+            const { dinosaur: updatedDino, event } = await this.basicActionsService.resurrectDinosaur(dinosaur);
 
             const dinosaurDTO = plainToInstance(FrontendDinosaurDTO, updatedDino);
             res.status(200).json({ message: 'Le dinosaure a été ressuscité.', dinosaur: dinosaurDTO, event });

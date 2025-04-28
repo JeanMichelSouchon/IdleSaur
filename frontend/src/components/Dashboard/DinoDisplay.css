@@ -1,174 +1,116 @@
-/* Styles de base et transitions pour l'image du dinosaure */
-.dino-svg {
-  transition: transform 0.3s ease, filter 0.3s ease;
+/* Animation du dinosaure lors d'une action */
+.dino-svg.action-in-progress {
+    animation: dinoActionAnimation 0.45s forwards;
 }
 
 .dino-dead {
-  filter: grayscale(100%);
-  transition: filter 2s, transform 2s;
-  transform: rotate(180deg) translateY(-35%);
+    filter: grayscale(100%);
+    transition: filter 2s, transform 2s ;
+    transform: rotate(180deg) translateY(-35%);
 }
 
 .dino-alive {
-  filter: grayscale(0%);
-  transition: filter 2s, transform 2s;
-  transform: rotate(0deg) translateY(0);
+    filter: grayscale(0%);
+    transition: filter 2s, transform 2s ;
+    transform: rotate(0deg) translateY(0) ;
+}
+.wonder{
+    animation: dinoActionWonder 0.45 forwards ;
+}
+.baisser{
+    animation: dinoActionBaisser 0.5s forwards ;
 }
 
-/* Animations d'actions */
-.wonder {
-  animation: dinoActionWonder 0.45s forwards;
-}
-@keyframes dinoActionWonder {
-  0% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(10deg);
-  }
-  50% {
-    transform: rotate(-10deg);
-  }
-  75% {
-    transform: rotate(5deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
+.sleep{
+    opacity: 0%;
 }
 
-.baisser {
-  animation: dinoActionBaisser 0.5s forwards;
-}
+
 @keyframes dinoActionBaisser {
-  0% {
-    transform: translateY(0) scaleY(1);
-  }
-  50% {
-    transform: translateY(10px) scaleY(0.9);
-  }
-  100% {
-    transform: translateY(0) scaleY(1);
-  }
+    0% {
+        transform: rotate(0deg) ;
+    }
+    50% {
+        transform: rotate(-45deg) ;
+    }
+
+    100% {
+        transform: rotate(0deg) ;
+    }
+    
 }
 
-.sleep {
-  opacity: 0;
+@keyframes dinoActionWonder {
+    0% {
+        transform: scaleX(1) ;
+    }
+
+    50% {
+        transform: scaleX(-1);
+    }
+    100% {
+        transform: scaleX(1);
+    }
 }
+
+
 
 /* Animation de montée de niveau */
 .dino-svg[class*="level-up"] {
-  animation: dinoLevelUp 1s ease-in-out;
-}
-
-@keyframes dinoLevelUp {
-  0% {
-    transform: scale(1) rotate(0deg);
-    filter: drop-shadow(0 0 0px gold);
+    animation: dinoLevelUp 1s ease-in-out;
   }
-  12.5% {
-    transform: scale(1.1) rotate(45deg);
-    filter: drop-shadow(0 0 5px gold);
+  
+  @keyframes dinoLevelUp {
+    0% {
+      transform: scale(1) rotate(0deg);
+      filter: drop-shadow(0 0 0px gold);
+    }
+    12.5% {
+      transform: scale(1.1) rotate(45deg);
+      filter: drop-shadow(0 0 5px gold);
+    }
+    25% {
+      transform: scale(1.2) rotate(90deg);
+      filter: drop-shadow(0 0 10px gold);
+    }
+    37.5% {
+      transform: scale(1.35) rotate(135deg);
+      filter: drop-shadow(0 0 15px gold);
+    }
+    50% {
+      transform: scale(1.5) rotate(180deg);
+      filter: drop-shadow(0 0 20px gold);
+    }
+    62.5% {
+      transform: scale(1.35) rotate(225deg);
+      filter: drop-shadow(0 0 15px gold);
+    }
+    75% {
+      transform: scale(1.2) rotate(270deg);
+      filter: drop-shadow(0 0 10px gold);
+    }
+    87.5% {
+      transform: scale(1.1) rotate(315deg);
+      filter: drop-shadow(0 0 5px gold);
+    }
+    100% {
+      transform: scale(1) rotate(360deg);
+      filter: drop-shadow(0 0 0px gold);
+    }
   }
-  25% {
-    transform: scale(1.2) rotate(90deg);
-    filter: drop-shadow(0 0 10px gold);
-  }
-  37.5% {
-    transform: scale(1.35) rotate(135deg);
-    filter: drop-shadow(0 0 15px gold);
-  }
-  50% {
-    transform: scale(1.5) rotate(180deg);
-    filter: drop-shadow(0 0 20px gold);
-  }
-  62.5% {
-    transform: scale(1.35) rotate(225deg);
-    filter: drop-shadow(0 0 15px gold);
-  }
-  75% {
-    transform: scale(1.2) rotate(270deg);
-    filter: drop-shadow(0 0 10px gold);
-  }
-  87.5% {
-    transform: scale(1.1) rotate(315deg);
-    filter: drop-shadow(0 0 5px gold);
-  }
-  100% {
-    transform: scale(1) rotate(360deg);
-    filter: drop-shadow(0 0 0px gold);
-  }
-}
-
-/* Animation de Karma : effet d'assombrissement / éclaircissement */
-.karma-animation {
-  animation: karmaPulse 1s ease-in-out;
-}
-
-@keyframes karmaPulse {
-  0% {
-    filter: brightness(1);
-  }
-  50% {
-    filter: brightness(0.7);
-  }
-  100% {
-    filter: brightness(1);
-  }
-}
-
-/* --- Nouvelles animations pour les actions enrichies --- */
-
-/* Animation pour Prier : légère rotation vers la droite, pause, puis retour */
-.pray {
-  animation: dinoPray 1s ease-in-out;
-}
-
-@keyframes dinoPray {
-  0% { transform: rotate(0deg); }
-  30% { transform: rotate(10deg); }
-  70% { transform: rotate(10deg); }
-  100% { transform: rotate(0deg); }
-}
-
-/* Animation pour Plonger (Dive) : le dinosaure saute vers la gauche et tombe hors de l'écran */
-.dive {
-  animation: dinoDive 1s ease-in forwards;
-}
-
-@keyframes dinoDive {
-  0% { transform: translateY(0) translateX(0); opacity: 1; }
-  50% { transform: translateY(50px) translateX(-20px); opacity: 0.7; }
-  100% { transform: translateY(100vh) translateX(-50px); opacity: 0; }
-}
-
-/* Animation pour Voler (Fly) : le dinosaure s'envole par le haut de l'écran */
-.fly {
-  animation: dinoFly 1s ease-in forwards;
-}
-
-@keyframes dinoFly {
-  0% { transform: translateY(0); opacity: 1; }
-  50% { transform: translateY(-50px); opacity: 1; }
-  100% { transform: translateY(-100vh); opacity: 0; }
-}
-
-/* Animation pour Creuser (Dig) : mouvement de type yoyo avant de descendre hors de l'écran */
-.dig {
-  animation: dinoDig 1s ease-in forwards;
-}
-
-@keyframes dinoDig {
-  0% { transform: translateY(0) translateX(0); opacity: 1; }
-  20% { transform: translateY(30px) translateX(10px); opacity: 1; }
-  40% { transform: translateY(60px) translateX(-10px); opacity: 0.8; }
-  60% { transform: translateY(90px) translateX(10px); opacity: 0.6; }
-  80% { transform: translateY(120px) translateX(-10px); opacity: 0.4; }
-  100% { transform: translateY(100vh) translateX(0); opacity: 0; }
-}
-
-/* Container du display du dinosaure */
-.dino-display-container {
-  position: relative;
-  display: inline-block; /* Permet de conserver la taille de l'image */
-}
+  
+/* 
+@keyframes dinoActionAnimation {
+    0% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+    60% {
+        transform: scale(0.5) translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+} */

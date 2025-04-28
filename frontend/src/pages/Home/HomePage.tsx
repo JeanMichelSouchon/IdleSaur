@@ -48,7 +48,7 @@ const HomePage: React.FC = () => {
             </div>
 
             {/* Overlay qui affiche les formulaires de connexion ou d'inscription selon l'état */}
-            <div className={`home-page-overlay ${isLoginOpen || isSignupOpen ? 'show' : ''}`}>
+            <div className={`overlay ${isLoginOpen || isSignupOpen ? 'show' : ''}`}>
                 {/* Affichage conditionnel du formulaire de connexion */}
                 {isLoginOpen && <LoginForm onClose={closeForms} />}
 

@@ -1,23 +1,20 @@
 import { Response, Request } from 'express';
 import { AuthenticatedRequest } from '../../auth/middlewares/authMiddleware';
 import { plainToInstance } from 'class-transformer';
+import { getAvailableActions, getExperienceThresholdForLevel } from '../utils/dinosaur-actions.util';
 import { DinosaurActionDTO } from '../models/dinosaur-action.dto';
 import { ChangeDinosaurNameRequestBody } from '../models/change-dinosaur-name.dto';
 import { calculateEpochThresholds } from '../utils/epochUtils';
 import { DinosaurRepository } from '../repositories/dinosaur.repository';
 import { FrontendDinosaurDTO } from '../models/frontend-dinosaur.dto';
-import { DinosaurEventService } from '../services/dinosaur-event.service';
-import { getExperienceThresholdForLevel } from '../utils/levelThresholds';
 
 export class DinosaursController {
   private dinosaurRepository: DinosaurRepository;
-  private dinosaurEventService: DinosaurEventService;
+
   constructor(
-    dinosaurRepository: DinosaurRepository,
-    dinosaurEventService: DinosaurEventService
+    dinosaurRepository: DinosaurRepository
   ) {
     this.dinosaurRepository = dinosaurRepository;
-    this.dinosaurEventService = dinosaurEventService;
   }
   
   // Nouvelle méthode pour obtenir les seuils des époques
@@ -47,7 +44,7 @@ export class DinosaursController {
       }
 
       // Obtenir les actions disponibles avec leurs détails
-      const availableActions = this.dinosaurEventService.getAvailableActions(dinosaur);
+      const availableActions = getAvailableActions(dinosaur);
 
       res.status(200).json({
         dinosaur: plainToInstance(FrontendDinosaurDTO, dinosaur),

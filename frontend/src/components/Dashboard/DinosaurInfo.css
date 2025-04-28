@@ -1,31 +1,69 @@
 .dinosaur-info {
-    height: 100%;
     margin: 2px;
+    /* border: 2px solid black;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8); */
+
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    width: 27vh;
-  }
-  
-  .dino-basic-info {
-    text-align: center;
-    width: 100%;
-  }
-  
-  .dino-gauges {
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 0px 3px;
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
+    flex-grow: 5;
+    flex-shrink: 0;
     justify-content: center;
-  }
+    align-items: center;
+    padding: 10px;
+    width: 43vh;
+}
 
-  p {
-    font-size: 20px;
-  }
-  
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    border-bottom: 1px dashed #333;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Positionne l'infobulle au-dessus du texte */
+    left: 50%;
+    margin-left: -80px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltip .tooltip-text::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+@media (max-width: 768px) {
+    /* Masquer complètement l'élément tooltip en mode responsive */
+    .tooltip {
+        display: none;
+    }
+    
+    /* Masquer les informations non nécessaires */
+    .notDisplayed {
+        display: none;
+    }
+    .dinosaur-info {
+        width: 97%;
+    }
+}

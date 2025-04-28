@@ -13,9 +13,6 @@ import BackgroundOverlay from '../../components/Dashboard/BackgroundOverlay';
 import Gauge_XP from '../../components/Dashboard/utils/Gauge_XP';
 import { DinosaurEvent } from '../../types/DinosaurEvent';
 import DinoDisplay from '../../components/Dashboard/DinoDisplay';
-import { useOverlay } from '../../contexts/OverlayContext';
-import RankingOverlay from '../../components/Dashboard/overlays/RankingOverlay';
-import DinoSoulOverlay from '../../components/Dashboard/overlays/DinoSoulOverlay';
 
 /**
  * Composant fonctionnel représentant la page Dashboard.
@@ -28,13 +25,10 @@ const DashboardPage: React.FC = () => {
     const [dinosaur, setDinosaur] = useState<Dinosaur | null>(null);
     const [availableActions, setAvailableActions] = useState<ActionDetail[]>([]); // État pour les actions
     const [lastEvent, setLastEvent] = useState<DinosaurEvent | null>(null); // État pour l'événement affiché
-    const [isOverlayVisible, setIsOverlayVisible] = useState<boolean>(false); // Overlay pour les infos du dinosaure en mobile
+    const [isOverlayVisible, setIsOverlayVisible] = useState<boolean>(false); // Nouvel état pour l'overlay
     const [isActionInProgress, setIsActionInProgress] = useState<ActionDetail | null>(null); // État pour l'animation du dinosaure
     const [levelUp, setLevelUp] = useState<boolean>(false);
-  
-    // Récupération du contexte d'overlays (pour Inventaire, Bâtiments, Shop, etc.)
-    const { currentOverlay, closeOverlay, openOverlay, statDetailTarget } = useOverlay();
-
+    
     const initializePage = async () => {
         try {
             // Récupération des données utilisateur depuis le backend
@@ -46,6 +40,7 @@ const DashboardPage: React.FC = () => {
 
             // Récupération de l'expérience maximale du prochain niveau
             const maxExperienceResponse = await getNextLevelXp();
+
             // Supposons que l'API retourne un objet { nextLevelXp: 1000 }
             // Extraire directement la valeur numérique
             const maxExperience = maxExperienceResponse.nextLevelXp;
@@ -75,6 +70,7 @@ const DashboardPage: React.FC = () => {
                 setDinosaur(updatedDinosaur);
                 setLevelUp(true);
                 setTimeout(() => {
+                    console.log('leveled up !!!')
                     setLevelUp(false);
                 }, 2000); // Durée de l'animation
             }              
@@ -96,7 +92,7 @@ const DashboardPage: React.FC = () => {
             setLastEvent(event);
             setIsActionInProgress(null); // Arrête l'animation du dinosaure
             // Cache l'overlay après 3 secondes
-            setTimeout(() => setLastEvent(null), 2500);
+            setTimeout(() => setLastEvent(null), 1750);
         }, 500);
     };
 
@@ -147,6 +143,7 @@ const DashboardPage: React.FC = () => {
                 </div>
                 {/* Section Middle contenant la barre XP et l'image du dinosaure */}
                 <div id="Middle">
+                    {/* Partie supérieure de la section Middle */}
                     <div className="topMiddle">
                         {/* Jauge XP avec infobulle pour le multiplicateur d'expérience */}
                         <Gauge_XP
@@ -154,6 +151,7 @@ const DashboardPage: React.FC = () => {
                             current={experience}
                             max={max_experience}
                             color="blue"
+                            tooltipText={`Multiplicateur d'expérience : ${dinosaur?.final_earn_experience_multiplier}x`}
                         />
                 
                         {/* Bouton pour afficher l'overlay en mode mobile */}
@@ -164,22 +162,8 @@ const DashboardPage: React.FC = () => {
                             Voir infos du dinosaure
                         </button>
                     </div>
-                    <div className="bottomMiddle" style={{ position: 'relative' }}>
-                        {/* Insertion des icones de toogle d'overlays */}
-                        {dinosaur && (
-                            <div className="overlay-icons-bar">
-
-                            {/* 1) Dino Soul Overlay */}
-                            <span
-                                className="overlay-icon"
-                                onClick={() => openOverlay('dino-soul')}
-                                title="Dino Soul"
-                            >
-                                💀
-                            </span>
-                            </div>
-                        )}
-                        {/* La div "middleContent" reçoit un style inline pour position relative */}
+                    {/* Partie inférieure de la section Middle */}
+                    <div className="bottomMiddle">
                         <div className="middleContent">
                             {/* Affichage conditionnel de l'image du dinosaure selon son régime alimentaire et son type */}
                             {dinosaur && (
@@ -200,7 +184,6 @@ const DashboardPage: React.FC = () => {
                     {/* Affichage conditionnel du composant Actions */}
                     {dinosaur && (
                         <Actions
-                            dinosaur={dinosaur}
                             refreshDinosaur={refreshDinosaur}
                             availableActions={availableActions}
                             onActionEvent={handleEventDisplay}
@@ -225,19 +208,6 @@ const DashboardPage: React.FC = () => {
                     </div>
                 </div>
             )}
-
-            {/* Overlay pour afficher les informations des viues passées du dino (DinoSoulOverlay) */}
-            {currentOverlay === 'dino-soul' && dinosaur && (
-                <DinoSoulOverlay 
-                  dinosaur={dinosaur} 
-                  onClose={closeOverlay} 
-                  active={true}
-                />
-            )}
-            {currentOverlay === 'ranking' && dinosaur && (
-                <RankingOverlay onClose={closeOverlay} active />
-            )}
-
         </>
     );
 };

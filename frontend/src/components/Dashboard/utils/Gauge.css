@@ -1,20 +1,20 @@
-.gaugexp {
+.gauge {
     position: relative;
     margin: 1px 0;
     font-size: 0.9rem;
     width: 100%; /* Utilisation de 100% pour un espace flexible */
-    min-width: 100%; /* S'assurer que la largeur maximale s'ajuste au parent */
+    max-width: 100%; /* S'assurer que la largeur maximale s'ajuste au parent */
     padding: 0 10px; /* Ajouter un padding pour un meilleur espacement sur petits écrans */
 }
 
-.gauge-xplabel {
+.gauge-label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
     text-align: center; /* Centrage du label */
 }
 
-.gauge-xpbar {
+.gauge-bar {
     background-color: #e0e0e0;
     border-radius: 8px;
     overflow: hidden;
@@ -23,13 +23,13 @@
     width: 100%;
 }
 
-.gauge-xpfill {
+.gauge-fill {
     height: 100%;
     border-radius: 8px 0 0 8px;
     transition: width 0.3s ease;
 }
 
-.gauge-xptext {
+.gauge-text {
     display: inline-block;
     font-size: 0.8rem;
     margin-top: 5px;
@@ -38,12 +38,12 @@
 }
 
 /* Styles pour les infobulles */
-.tooltipxp {
+.tooltip {
     position: relative;
     display: inline-block;
 }
 
-.tooltip-xptext {
+.tooltip-text {
     visibility: hidden;
     width: 200px;
     background-color: #333;
@@ -53,35 +53,32 @@
     padding: 5px;
     position: absolute;
     z-index: 1;
-    bottom: 25%;
+    bottom: 125%;
     left: 50%;
     margin-left: -100px;
     opacity: 0;
     transition: opacity 0.3s;
 }
 
-.tooltipxp:hover .tooltip-xptext {
+.tooltip:hover .tooltip-text {
     visibility: visible;
     opacity: 1;
 }
 
-/* Media queries pour rendre le composant responsive */
 @media (max-width: 768px) {
-    .gaugexp {
+    .gauge {
         position: initial;
         font-size: 0.8rem;
         padding: 0 5px; /* Réduire le padding sur petits écrans */
     }
 
-    .gauge-xpbar {
+    .gauge-bar {
         position: initial;
         height: 15px; /* Réduire la hauteur de la barre sur petits écrans */
+        width: 98%;
     }
 
-    .tooltip-xptext {
-        position: initial;
-        margin-left: 10px;
-        
-        
+    .tooltip-text {
+       display: none;
     }
 }

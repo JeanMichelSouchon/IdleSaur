@@ -12,40 +12,17 @@ interface BackgroundOverlayProps {
   levelUp: boolean;
 }
 
-// Construction du mapping entre les epochs et l'image de fond correspondante
 const EPOCH_BACKGROUND_IMAGES: Record<Epoch, string> = Object.values(Epoch).reduce((acc, epoch) => {
   acc[epoch as Epoch] = `/assets/img/epochs/${epoch}.webp`;
   return acc;
 }, {} as Record<Epoch, string>);
 
-/**
- * Mapping des types de particules vers l'emoji correspondant.
- * Seuls les modificateurs suivants auront un emoji : food, money, skillPoints, weapons, armors, friends, employees.
- * Le modificateur levelUp reste inchangé.
- */
-const particleEmojiMapping: Record<Particle['type'], string> = {
-  food: '🍎',
-  money: '💰',
-  skillPoints: '⭐',
-  weapons: '⚔️',
-  armors: '🛡️',
-  friends: '🤝',
-  employees: '👥',
-  levelUp: '🎉',
-};
-
 interface Particle {
   id: number;
   style: React.CSSProperties & { [key: string]: string | number };
-  type: 'food' | 'money' | 'skillPoints' | 'weapons' | 'armors' | 'friends' | 'employees' | 'levelUp';
+  type: 'food' | 'experience' | 'karma' | 'levelUp';
 }
 
-/**
- * Composant BackgroundOverlay
- * Gère l'affichage de l'image de fond en fonction de l'époque,
- * applique les animations liées aux actions, événements et montée de niveau,
- * et génère des notifications sous forme d'emoji pour certains modificateurs.
- */
 const BackgroundOverlay: React.FC<BackgroundOverlayProps> = ({ dinosaur, lastEvent, action, levelUp }) => {
   const [actionClass, setActionClass] = useState<string>('');
   const [eventClass, setEventClass] = useState<string>('');
@@ -54,12 +31,14 @@ const BackgroundOverlay: React.FC<BackgroundOverlayProps> = ({ dinosaur, lastEve
   const [levelUpClass, setLevelUpClass] = useState<string>('');
 
   let imageUrl = EPOCH_BACKGROUND_IMAGES[dinosaur.epoch] || EPOCH_BACKGROUND_IMAGES[Epoch.Ancient_Epoch1];
+
   if (dinosaur.is_dead) {
     imageUrl = `/assets/img/epochs/graveyard.webp`;
   }
+
   const sleepingClass = dinosaur.is_sleeping ? 'sleeping' : '';
 
-  // Gestion de l'animation d'action (inchangée)
+  // Gestion des animations d'action (inchangée)
   useEffect(() => {
     if (action) {
       const actionClassName = `action-${action.name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`;
@@ -67,27 +46,31 @@ const BackgroundOverlay: React.FC<BackgroundOverlayProps> = ({ dinosaur, lastEve
     }
   }, [action]);
 
-  // Gestion des animations d'événement : création des particules en fonction des modificateurs
+  // Gestion des animations d'événement : utilisation du nouveau système de modificateurs
   useEffect(() => {
     if (lastEvent) {
       setEventClass(`event-animation-${Date.now()}`);
       const newParticles: Particle[] = [];
       let particleId = Date.now();
 
-      // Seuls les modificateurs ayant des emojis associés
-      const allowedTargets = ['food', 'money', 'skillPoints', 'weapons', 'armors', 'friends', 'employees'];
-      
+      // Parcourir les modificateurs pour générer des particules
       lastEvent.modifiers.forEach(mod => {
-        if (mod.value !== 0 && allowedTargets.includes(mod.target)) {
-          const particleType = mod.target as Particle['type'];
-          // Nombre de particules limité et proportionnel à la valeur absolue
-          const numParticles = Math.min(20, Math.ceil(Math.abs(mod.value) / 10));
+        if (mod.value !== 0) {
+          // Détermine le type de particule en fonction de la cible (target)
+          let particleType: Particle['type'] = 'food';
+          if (mod.target === 'experience') {
+            particleType = 'experience';
+          } else if (mod.target === 'karma') {
+            particleType = 'karma';
+          } else if (mod.target === 'energy' || mod.target === 'food' || mod.target === 'hunger') {
+            particleType = 'food';
+          }
+          // Nombre de particules proportionnel à la valeur absolue
+          const numParticles = Math.min(100, Math.ceil(Math.abs(mod.value) / 5));
           for (let i = 0; i < numParticles; i++) {
-            // Réduction de l'amplitude du déplacement pour une animation plus subtile
-            const translateX = (Math.random() - 0.5) * 50;
-            const translateY = -50 - Math.random() * 100;
-            // Animation plus lente : durée entre 4 et 6 secondes
-            const animationDuration = 4 + Math.random() * 2;
+            const translateX = (Math.random() - 0.5) * 100;
+            const translateY = -100 - Math.random() * 300;
+            const animationDuration = 2 + Math.random();
             newParticles.push({
               id: particleId++,
               type: particleType,
@@ -102,9 +85,10 @@ const BackgroundOverlay: React.FC<BackgroundOverlayProps> = ({ dinosaur, lastEve
           }
         }
       });
+
       setParticles(newParticles);
 
-      // Effet spécifique pour le karma (aucun emoji généré, juste l'effet visuel)
+      // Gestion spécifique de l'effet de karma si un modificateur de karma est présent
       const karmaMod = lastEvent.modifiers.find(mod => mod.target === 'karma' && mod.value !== 0);
       if (karmaMod) {
         const uniqueClass = karmaMod.value > 0 ? `karma-brighten-${Date.now()}` : `karma-darken-${Date.now()}`;
@@ -117,25 +101,28 @@ const BackgroundOverlay: React.FC<BackgroundOverlayProps> = ({ dinosaur, lastEve
         setKarmaEffectClass('');
         setParticles([]);
       }, 4000);
+
       return () => clearTimeout(timer);
     }
   }, [lastEvent]);
 
-  // Gestion de l'animation de montée de niveau
+  // Gestion de l'animation de montée de niveau (inchangée)
   useEffect(() => {
     if (levelUp) {
       const uniqueClass = `level-up-${Date.now()}`;
       setLevelUpClass(uniqueClass);
+
+      // Générer des particules pour l'effet de montée de niveau
       const newParticles: Particle[] = [];
       let particleId = Date.now();
-      const numParticles = 50; // Nombre de particules pour le niveau
+      const numParticles = 150; // Nombre de particules pour l'effet de niveau
+
       for (let i = 0; i < numParticles; i++) {
         const angle = Math.random() * 2 * Math.PI;
         const speed = 100 + Math.random() * 200;
         const translateX = Math.cos(angle) * speed;
         const translateY = Math.sin(angle) * speed;
-        // Animation plus lente pour l'effet de montée de niveau : durée entre 3 et 5 secondes
-        const animationDuration = 3 + Math.random() * 2;
+        const animationDuration = 2 + Math.random() * 2;
         newParticles.push({
           id: particleId++,
           type: 'levelUp',
@@ -148,11 +135,14 @@ const BackgroundOverlay: React.FC<BackgroundOverlayProps> = ({ dinosaur, lastEve
           },
         });
       }
+
       setParticles(prev => [...prev, ...newParticles]);
+
       const timer = setTimeout(() => {
         setLevelUpClass('');
         setParticles([]);
       }, 2000);
+
       return () => clearTimeout(timer);
     }
   }, [levelUp]);
@@ -192,9 +182,7 @@ const BackgroundOverlay: React.FC<BackgroundOverlayProps> = ({ dinosaur, lastEve
             key={particle.id}
             className={`particle particle-${particle.type}`}
             style={particle.style}
-          >
-            {particleEmojiMapping[particle.type]}
-          </div>
+          ></div>
         ))}
       </div>
     </div>

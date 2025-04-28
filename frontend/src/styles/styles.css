@@ -13,10 +13,6 @@
     --icon-hover-color: #ccc;
 }
 
-#root {
-    height: 100vh;
-}
-
 /* Réinitialisation des marges et hauteurs */
 * {
     margin: 0;

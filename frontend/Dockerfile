@@ -1,9 +1,6 @@
 # Étape de build
 FROM node:18-alpine AS build
 WORKDIR /app
-# Ajout d'un argument de build pour REACT_APP_API_URL
-ARG REACT_APP_API_URL
-ENV REACT_APP_API_URL=$REACT_APP_API_URL
 # On copie uniquement les fichiers package pour profiter du cache npm
 COPY package*.json ./
 RUN npm install

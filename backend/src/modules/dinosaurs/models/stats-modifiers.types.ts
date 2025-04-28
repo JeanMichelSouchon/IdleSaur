@@ -6,27 +6,19 @@
 export type ModifierType = 'additive' | 'multiplicative';
 
 export type StatTarget =
-  | "base_max_energy"
-  | "base_max_food"
-  | "base_max_hunger"
-  | "energy_recovery_multiplier"
-  | "energy_decay_multiplier"
-  | "hunger_increase_multiplier"
-  | "food_production"
-  | "earn_food_global_multiplier"
-  | "earn_food_herbi_multiplier"
-  | "earn_food_carni_multiplier"
-  | "earn_experience_multiplier"
-  | "earn_skill_point_multiplier"
-  | "earn_karma_multiplier"
-  | "energy_decay_per_second"
-  | "energy_recovery_per_second"
-  | "energy_recovery_per_second_when_sleeping"
-  | "hunger_increase_per_second"
-  | "hunger_increase_per_second_when_recovery"
-  | "karma_width"
-  | "luck_factor_multiplier"
-  | "age_factor";
+    | "base_max_energy"
+    | "base_max_food"
+    | "base_max_hunger"
+    | "energy_recovery_multiplier"
+    | "energy_decay_multiplier"
+    | "hunger_increase_multiplier"
+    | "earn_food_global_multiplier"
+    | "earn_food_herbi_multiplier"
+    | "earn_food_carni_multiplier"
+    | "earn_experience_multiplier"
+    | "earn_skill_point_multiplier"
+    | "earn_money_multiplier"
+    | "earn_karma_multiplier";
 
 
 /**

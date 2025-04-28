@@ -20,20 +20,22 @@ export class DinosaurTimeService {
     this.basicActionsService = basicActionsService;
   }
 
-
   /**
-   * Calcule l'époque du dinosaure en fonction de son âge (en secondes).
-   * @param ageInSeconds Âge du dinosaure en secondes
-   * @returns L'époque calculée
+   * Calcule l'époque du dinosaure en fonction du temps écoulé depuis sa dernière renaissance.
+   * @param lastReborn Date de la dernière renaissance du dinosaure.
+   * @returns L'époque calculée.
    */
-  private calculateEpochFromAge(ageInSeconds: number): Epoch {
+  private calculateEpoch(lastReborn: Date): Epoch {
+    const now = new Date();
+    const elapsedSeconds = (now.getTime() - lastReborn.getTime()) / 1000;
+
     // Parcours des seuils pour déterminer l'époque
     for (const { epoch, threshold } of this.epochThresholds) {
-      if (ageInSeconds < threshold) {
+      if (elapsedSeconds < threshold) {
         return epoch;
       }
     }
-    // Si tous les seuils sont dépassés, renvoyer la dernière
+    // Si tous les seuils sont dépassés, renvoyer le dernier
     return this.epochThresholds[this.epochThresholds.length - 1].epoch;
   }
 
@@ -45,12 +47,10 @@ export class DinosaurTimeService {
    * - En état éveillé, le dinosaure perd de l'énergie (energy_decay_per_second) et sa faim augmente normalement.
    * - Si l'énergie atteint 0, le dinosaure est mis en sommeil.
    * - Si l'énergie atteint son maximum (final_max_energy), le dinosaure se réveille automatiquement.
-   * - Si la faim atteint son maximum et qu'il dispose encore de nourriture, il mange automatiquement (après avoir été réveillé s'il est en sommeil),
-   *   sinon il meurt de faim.
+   * - Si la faim atteint son maximum et qu'il dispose encore de nourriture, il mange automatiquement (après avoir été réveillé s'il est en sommeil).
+   *   Sinon, il meurt de faim.
    * - L'époque est recalculée en fonction de last_reborn.
    * - La date de dernière mise à jour est rafraîchie.
-   * - **Ajout :** Production de weapons, armors, friends et employees pendant le sommeil,
-   *   en s'assurant de ne pas dépasser la valeur maximale définie dans le DTO.
    * 
    * @param dino L'objet FrontendDinosaurDTO à mettre à jour.
    * @returns Le dinosaure ajusté.
@@ -63,6 +63,7 @@ export class DinosaurTimeService {
 
     // Si le dinosaure est mort, aucune modification n'est effectuée.
     if (dino.is_dead) {
+      console.log('Dinosaure mort, aucune mise à jour effectuée.');
       return dino;
     }
 
@@ -71,7 +72,7 @@ export class DinosaurTimeService {
     const elapsedSeconds = Math.floor((now.getTime() - lastUpdate.getTime()) / 1000);
 
     // Mise à jour de l'époque en fonction du temps écoulé depuis le dernier reborn
-    dino.epoch = this.calculateEpochFromAge(dino.age);
+    dino.epoch = this.calculateEpoch(dino.last_reborn);
 
     if (elapsedSeconds > 0) {
       if (dino.is_sleeping) {
@@ -85,29 +86,10 @@ export class DinosaurTimeService {
 
         // Si l'énergie atteint son maximum, réveiller le dinosaure via le BasicActionsService
         if (dino.energy >= dino.final_max_energy) {
+          console.log('Dinosaure réveillé automatiquement (énergie maximale atteinte).');
           await this.basicActionsService.wakeDinosaur(dino);
         }
       } else {
-
-        
-        // Production de food, weapons, armors, friends et employees pendant la journée
-
-        const foodProduction = elapsedSeconds * dino.final_food_production;
-        dino.food = dino.food + Math.min(dino.final_food_production, dino.food + foodProduction);
-
-        const weaponProduction = elapsedSeconds * dino.final_weapon_production;
-        dino.weapons = dino.weapons + Math.min(dino.final_weapon_production, dino.weapons + weaponProduction);
-
-        const armorProduction = elapsedSeconds * dino.final_armor_production;
-        dino.armors = dino.armors + Math.min(dino.final_armor_production, dino.armors + armorProduction);
-
-        const friendProduction = elapsedSeconds * dino.final_friend_production;
-        dino.friends = dino.friends + Math.min(dino.final_friend_production, dino.friends + friendProduction);
-
-        const employeesProduction = elapsedSeconds * dino.final_employee_production;
-        dino.employees = dino.employees + Math.min(dino.final_employee_production, dino.employees + employeesProduction);
-
-        
         // Perte d'énergie en état éveillé
         const energyLost = elapsedSeconds * dino.energy_decay_per_second;
         dino.energy = Math.max(0, dino.energy - energyLost);
@@ -116,10 +98,10 @@ export class DinosaurTimeService {
         const hungerIncrease = elapsedSeconds * dino.hunger_increase_per_second;
         dino.hunger = Math.min(dino.final_max_hunger, dino.hunger + hungerIncrease);
 
-
         // Si l'énergie tombe à zéro, passage en sommeil
         if (dino.energy === 0) {
           dino.is_sleeping = true;
+          console.log('Dinosaure épuisé, passage en sommeil.');
         }
       }
       // Mise à jour de la date de dernière mise à jour
@@ -129,16 +111,18 @@ export class DinosaurTimeService {
     // Vérifier si la faim est au maximum
     if (dino.hunger >= dino.final_max_hunger) {
       if (dino.food > 0) {
+        console.log('Faim maximale détectée, auto-alimentation du dinosaure.');
         // Si le dinosaure est en sommeil, le réveiller d'abord
         if (dino.is_sleeping) {
+          console.log('Dinosaure en sommeil, réveil automatique avant auto-alimentation.');
           await this.basicActionsService.wakeDinosaur(dino);
         }
         // Auto-alimentation
         const result = this.basicActionsService.eatDinosaur(dino);
         dino = result.dinosaur;
       } else {
+        console.log('Dinosaure meurt de faim (aucune nourriture disponible).');
         dino.is_dead = true;
-        dino.death_date = new Date();
       }
     }
 

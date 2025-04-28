@@ -1,13 +1,11 @@
-
 version: "3.8"
 
 services:
   mariadb:
     build: ./database
-    image: eu.gcr.io/iddlesaur-452708/mariadb
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: iddlesaur
+      MYSQL_DATABASE: mydatabase
       MYSQL_USER: myuser
       MYSQL_PASSWORD: mypassword
     volumes:
@@ -19,29 +17,25 @@ services:
 
   backend:
     build: ./backend
-    image: eu.gcr.io/iddlesaur-452708/backend
     ports:
       - "3000:3000"
     depends_on:
       - mariadb
     environment:
-      DB_HOST: /cloudsql/iddlesaur-452708:europe-west9:iddlesaur
+      DB_HOST: mariadb
       DB_USER: myuser
       DB_PASSWORD: mypassword
-      DB_NAME: iddlesaur
+      DB_NAME: mydatabase
       JWT_SECRET: mySuperSecretKey
-      DEFAULT_ADMIN_NAME: admin
-      DEFAULT_ADMIN_PASSWORD: password
     networks:
       - backend-network
 
-  frontend:
-    build: ./frontend
-    image: eu.gcr.io/iddlesaur-452708/frontend
-    ports:
-      - "8080:80"
-    networks:
-      - backend-network
+  # frontend:
+  #   build: ./frontend
+  #   ports:
+  #     - "8080:80"
+  #   networks:
+  #     - backend-network
 
 volumes:
   mariadb-data:
@@ -49,4 +43,3 @@ volumes:
 networks:
   backend-network:
     driver: bridge
-

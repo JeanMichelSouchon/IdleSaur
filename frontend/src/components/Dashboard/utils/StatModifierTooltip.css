@@ -1,0 +1,77 @@
+.stat-modifier-tooltip {
+    position: absolute;
+    top: -105%; /* Positionné au-dessus du composant Gauge */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    width: 220px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    font-size: 0.85rem;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.stat-modifier-tooltip.show {
+    opacity: 1;
+}
+
+.stat-modifier-tooltip::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.stat-modifier-tooltip h4 {
+    margin: 0 0 5px;
+    font-size: 1rem;
+    border-bottom: 1px solid #555;
+    padding-bottom: 5px;
+}
+
+.stat-modifier-tooltip ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.stat-modifier-tooltip li {
+    margin: 4px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.stat-modifier-tooltip .modifier-source {
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+.stat-modifier-tooltip .modifier-type {
+    font-style: italic;
+    margin-right: 4px;
+}
+
+.stat-modifier-tooltip .modifier-value {
+    color: #4CAF50;
+    margin-left: 4px;
+}
+
+.stat-modifier-tooltip .separator {
+    margin: 0 3px;
+    color: #aaa;
+}
+
+.no-modifiers {
+    font-style: italic;
+    text-align: center;
+}

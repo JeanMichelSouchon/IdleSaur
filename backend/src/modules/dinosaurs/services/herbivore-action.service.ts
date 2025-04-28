@@ -1,20 +1,18 @@
 import { DinosaurAction } from '../models/dinosaur-action.enum';
+import { getRandomEventForAction, applyEventToDinosaur } from '../utils/dinosaur-actions.util';
 import { DinosaurEvent } from '../models/dinosaur-event.interface';
 import { DinosaurActionsMap } from '../libs/dinosaur-actions.mapping';
 import { DinosaurRepository } from '../repositories/dinosaur.repository';
 import { FrontendDinosaurDTO } from '../models/frontend-dinosaur.dto';
-import { DinosaurEventService } from './dinosaur-event.service';
 
 /**
  * Service pour gérer les actions spécifiques aux dinosaures herbivores (cueillir).
  */
 export class HerbivoreActionsService {
     private dinosaurRepository: DinosaurRepository;
-    private dinosaurEventService: DinosaurEventService;
 
-    constructor(dinosaurRepository: DinosaurRepository, dinosaurEventService: DinosaurEventService) {
+    constructor(dinosaurRepository: DinosaurRepository) {
         this.dinosaurRepository = dinosaurRepository;
-        this.dinosaurEventService = dinosaurEventService
     }
 
     /**
@@ -29,8 +27,8 @@ export class HerbivoreActionsService {
             throw new Error('Le dinosaure ne peut pas cueillir.');
         }
 
-        const event = await this.dinosaurEventService.getRandomEventForAction(DinosaurAction.Graze, dinosaur);
-        this.dinosaurEventService.applyEventToDinosaur(dinosaur, DinosaurAction.Graze, event);
+        const event = await getRandomEventForAction(DinosaurAction.Graze, dinosaur.level);
+        applyEventToDinosaur(dinosaur, DinosaurAction.Graze, event);
 
         this.dinosaurRepository.updateDinosaur(dinosaur.id, dinosaur);
         return { dinosaur, event };

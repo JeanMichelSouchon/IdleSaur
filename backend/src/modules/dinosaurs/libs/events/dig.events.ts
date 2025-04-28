@@ -38,7 +38,7 @@ export const digEvents: DynamicEventData[] = [
       },
       {
         source: "dig",
-        target: "experience",
+        target: "money",
         base_value: 2000,
         additiveStep: 5,
         additiveIncrement: 200,
@@ -82,7 +82,7 @@ export const digEvents: DynamicEventData[] = [
       },
       {
         source: "dig",
-        target: "experience",
+        target: "money",
         base_value: 2500,
         additiveStep: 5,
         additiveIncrement: 300,
@@ -124,7 +124,7 @@ export const digEvents: DynamicEventData[] = [
         multiplicativeStep: 0,
         multiplicativeIncrement: 0
       }
-      // Aucun modificateur pour experience
+      // Aucun modificateur pour money
     ]
   },
   {
@@ -162,7 +162,7 @@ export const digEvents: DynamicEventData[] = [
       },
       {
         source: "dig",
-        target: "experience",
+        target: "money",
         base_value: 5000,
         additiveStep: 5,
         additiveIncrement: 2000,
@@ -171,148 +171,8 @@ export const digEvents: DynamicEventData[] = [
       },
       {
         source: "dig",
-        target: "experience",
+        target: "skillPoints",
         base_value: 50,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      }
-    ]
-  },
-  {
-    id: 0,
-    name: "Fouille décevante",
-    actionType: DinosaurAction.Dig,
-    minLevel: 5,
-    positivityScore: -5,
-    weight: 2,
-    descriptions: [
-      "Une fouille qui tourne mal, laissant derrière elle un lot d'armes et d'armures oubliées.",
-      "Le dinosaure découvre, en creusant maladroitement, 10 armes et 10 armures échouées.",
-      "Un creusement décevant offre en retour un stock d'équipements insoupçonnés.",
-      "Le sol se rebelle et livre 10 armes et 10 armures en guise de consolation.",
-      "Une exploration souterraine ratée qui se solde par un butin inattendu d'armes et d'armures."
-    ],
-    baseModifiers: [
-      {
-        source: "dig",
-        target: "experience",
-        base_value: 10,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      },
-      {
-        source: "dig",
-        target: "experience",
-        base_value: 10,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      }
-    ]
-  },
-  {
-    id: 0,
-    name: "Effondrement spectaculaire",
-    actionType: DinosaurAction.Dig,
-    minLevel: 10,
-    positivityScore: -7,
-    weight: 1,
-    descriptions: [
-      "Une fouille qui s'effondre en catastrophe, dévoilant 10 armes et 10 armures enfouies.",
-      "Le creusement tourne à la débâcle, offrant un lot conséquent d'équipements perdus.",
-      "Le sol cède et livre, dans un élan dramatique, 10 armes et 10 armures éparpillées.",
-      "Une fouille désastreuse se conclut par la découverte de 10 armes et 10 armures oubliées.",
-      "Un moment de chaos souterrain qui se solde par un butin d'armes et d'armures en pagaille."
-    ],
-    baseModifiers: [
-      {
-        source: "dig",
-        target: "experience",
-        base_value: 10,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      },
-      {
-        source: "dig",
-        target: "experience",
-        base_value: 10,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      }
-    ]
-  },
-  {
-    id: 0,
-    name: "Fouille fraternelle",
-    actionType: DinosaurAction.Dig,
-    minLevel: 5,
-    positivityScore: 5,
-    weight: 2,
-    descriptions: [
-      "Une fouille qui, malgré tout, réunit le dinosaure avec 5 amis et un employé pour une aventure partagée.",
-      "Le creusement amical lui offre une surprenante rencontre : 5 amis et 1 collaborateur.",
-      "Une exploration souterraine se transforme en moment de convivialité, réunissant 5 amis et 1 employé.",
-      "Le sol se révèle accueillant, lui apportant 5 amis et 1 renfort lors de sa fouille.",
-      "Une aventure partagée où la découverte d'amis et d'un employé renforce son équipe."
-    ],
-    baseModifiers: [
-      {
-        source: "dig",
-        target: "experience",
-        base_value: 5,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      },
-      {
-        source: "dig",
-        target: "experience",
-        base_value: 1,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      }
-    ]
-  },
-  {
-    id: 0,
-    name: "Fouille solidaire",
-    actionType: DinosaurAction.Dig,
-    minLevel: 10,
-    positivityScore: 7,
-    weight: 1,
-    descriptions: [
-      "Une fouille magistrale qui se solde par la découverte de 10 amis et 2 employés dévoués.",
-      "Le dinosaure, dans un moment de solidarité, voit son équipe s'agrandir avec 10 amis et 2 collaborateurs.",
-      "Le creusement réussi renforce ses rangs, offrant 10 amis et 2 renforts précieux.",
-      "Les profondeurs se font généreuses, lui offrant 10 amis et 2 employés dans un élan de fraternité.",
-      "Une exploration exceptionnelle qui se conclut par l'arrivée de 10 amis et 2 employés enthousiastes."
-    ],
-    baseModifiers: [
-      {
-        source: "dig",
-        target: "experience",
-        base_value: 10,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      },
-      {
-        source: "dig",
-        target: "experience",
-        base_value: 2,
         additiveStep: 0,
         additiveIncrement: 0,
         multiplicativeStep: 0,
