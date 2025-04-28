@@ -4,6 +4,7 @@ import { AuthenticatedRequest } from '../../auth/middlewares/authMiddleware';
 import { plainToInstance } from 'class-transformer';
 import { UserDTO } from '../models/user.dto';
 import { ChangeUsernameRequestBody } from '../../auth/models/change-username.dto';
+import { PlayerScoreDTO } from '../models/player-score.dto';
 
 export class UsersController {
   private usersService: UsersService;
@@ -76,4 +77,30 @@ export class UsersController {
       res.status(500).json({ message: 'Erreur interne du serveur' });
     }
   };
+
+  /**
+   * Récupère la liste de tous les utilisateurs, avec leur score,
+   * pour l'affichage d'un classement.
+   */
+public getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await this.usersService.getAllUsers();
+
+    // Conversion en UserDTO (Validation des données)
+    const userDTOs = plainToInstance(UserDTO, users);
+
+    // Tri par totalSoulPoints
+    userDTOs.sort((a, b) => {
+      const scoreA = a.player_score;
+      const scoreB = b.player_score;
+      return (scoreB.totalSoulPoints || 0) - (scoreA.totalSoulPoints || 0);
+    });
+
+    // 4) On renvoie le tableau de DTO
+    res.status(200).json(userDTOs);
+  } catch (error) {
+    console.error('Erreur lors de la récupération de tous les utilisateurs:', error);
+    res.status(500).json({ message: 'Erreur interne du serveur' });
+  }
+};
 }

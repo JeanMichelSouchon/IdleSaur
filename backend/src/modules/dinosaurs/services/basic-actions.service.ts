@@ -1,18 +1,20 @@
 import { DinosaurAction } from '../models/dinosaur-action.enum';
-import { getRandomEventForAction, applyEventToDinosaur } from '../utils/dinosaur-actions.util';
 import { DinosaurEvent } from '../models/dinosaur-event.interface';
 import { DinosaurActionsMap } from '../libs/dinosaur-actions.mapping';
 import { DinosaurRepository } from '../repositories/dinosaur.repository';
 import { FrontendDinosaurDTO } from '../models/frontend-dinosaur.dto';
+import { DinosaurEventService } from './dinosaur-event.service';
 
 /**
  * Service pour gérer les actions basiques du dinosaure (manger, dormir, se réveiller, ressusciter).
  */
 export class BasicActionsService {
     private dinosaurRepository: DinosaurRepository;
+    private dinosaurEventService: DinosaurEventService;
 
-    constructor(dinosaurRepository: DinosaurRepository) {
+    constructor(dinosaurRepository: DinosaurRepository, dinosaurEventService: DinosaurEventService) {
         this.dinosaurRepository = dinosaurRepository;
+        this.dinosaurEventService = dinosaurEventService;
     }
 
     /**
@@ -65,7 +67,7 @@ export class BasicActionsService {
         };
 
         // Appliquer l'événement au dinosaure (les modifiers seront traités dans la fonction d'application)
-        applyEventToDinosaur(dinosaur, DinosaurAction.Eat, event);
+        this.dinosaurEventService.applyEventToDinosaur(dinosaur, DinosaurAction.Eat, event);
 
         // Mettre à jour le dinosaure en base
         this.dinosaurRepository.updateDinosaur(dinosaur.id, dinosaur);
@@ -85,10 +87,10 @@ export class BasicActionsService {
             throw new Error('Le dinosaure ne peut pas dormir.');
         }
 
-        const event = await getRandomEventForAction(DinosaurAction.Sleep, dinosaur.level);
+        const event = await this.dinosaurEventService.getRandomEventForAction(DinosaurAction.Sleep, dinosaur);
 
         dinosaur.is_sleeping = true;
-        applyEventToDinosaur(dinosaur, DinosaurAction.Sleep, event);
+        this.dinosaurEventService.applyEventToDinosaur(dinosaur, DinosaurAction.Sleep, event);
 
         this.dinosaurRepository.updateDinosaur(dinosaur.id, dinosaur);
         return { dinosaur, event };
@@ -106,10 +108,10 @@ export class BasicActionsService {
             throw new Error('Le dinosaure ne peut pas se réveiller.');
         }
 
-        const event = await getRandomEventForAction(DinosaurAction.WakeUp, dinosaur.level);
+        const event = await this.dinosaurEventService.getRandomEventForAction(DinosaurAction.WakeUp, dinosaur);
 
         dinosaur.is_sleeping = false;
-        applyEventToDinosaur(dinosaur, DinosaurAction.WakeUp, event);
+        this.dinosaurEventService.applyEventToDinosaur(dinosaur, DinosaurAction.WakeUp, event);
 
         this.dinosaurRepository.updateDinosaur(dinosaur.id, dinosaur);
         return { dinosaur, event };
@@ -120,18 +122,20 @@ export class BasicActionsService {
      * @param dinosaur Le dinosaure à ressusciter.
      * @returns Le dinosaure mis à jour et l'événement généré.
      */
-    public async resurrectDinosaur(dinosaur: FrontendDinosaurDTO): Promise<{ dinosaur: FrontendDinosaurDTO, event: DinosaurEvent }> {
+    public async resurrectDinosaur(dinosaur: FrontendDinosaurDTO, isAdmin: boolean = false): Promise<{ dinosaur: FrontendDinosaurDTO, event: DinosaurEvent }> {
         const actionDetails = DinosaurActionsMap[DinosaurAction.Resurrect];
 
         if (!actionDetails.canPerform(dinosaur)) {
             throw new Error('Le dinosaure ne peut pas ressusciter.');
         }
 
-        const event = await getRandomEventForAction(DinosaurAction.Resurrect, dinosaur.level);
+        const event = await this.dinosaurEventService.getRandomEventForAction(DinosaurAction.Resurrect, dinosaur);
 
-        applyEventToDinosaur(dinosaur, DinosaurAction.Resurrect, event);
+        // Apply event lors d'une resurrection renvoie une nouvelle instance de dino
+        // Penser a bien utiliser newDino, et non pâs dinosaur comme partout ailleurs
+        const newDino: FrontendDinosaurDTO = await this.dinosaurEventService.applyEventToDinosaur(dinosaur, DinosaurAction.Resurrect, event, isAdmin);
 
-        this.dinosaurRepository.updateDinosaur(dinosaur.id, dinosaur);
+        this.dinosaurRepository.updateDinosaur(newDino.id, newDino);
         return { dinosaur, event };
     }
 
@@ -147,10 +151,12 @@ export class BasicActionsService {
             throw new Error('Le dinosaure ne peut pas brouter.');
         }
 
-        const event = await getRandomEventForAction(DinosaurAction.Graze, dinosaur.level);
-        applyEventToDinosaur(dinosaur, DinosaurAction.Graze, event);
+        const event = await this.dinosaurEventService.getRandomEventForAction(DinosaurAction.Graze, dinosaur);
+        // Ici la fonction renvoie une nouvelle instance de dino
+        // Penser a bien utiliser newDino, et non pâs dinosaur comme partout ailleurs.
+        const newDino: FrontendDinosaurDTO = await this.dinosaurEventService.applyEventToDinosaur(dinosaur, DinosaurAction.Graze, event);
 
-        this.dinosaurRepository.updateDinosaur(dinosaur.id, dinosaur);
+        this.dinosaurRepository.updateDinosaur(newDino.id, newDino);
         return { dinosaur, event };
     }
 }

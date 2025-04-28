@@ -1,6 +1,6 @@
 .event-overlay {
   position: fixed;
-  top: 20%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -20%);
   background: rgba(255, 255, 255, 0.95);
@@ -16,6 +16,9 @@
 }
 
 .event-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid #ccc;
   margin-bottom: 10px;
   padding-bottom: 10px;
@@ -25,19 +28,6 @@
   margin: 0;
   font-size: 1.8rem;
   color: #007acc;
-}
-
-.event-info {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  font-size: 0.85rem;
-  margin-top: 5px;
-}
-
-.event-info span {
-  margin-right: 10px;
-  color: #555;
 }
 
 .event-description {
@@ -57,15 +47,15 @@
 }
 
 .modifier {
-  margin-bottom: 4px;
-  font-size: 0.9rem;
+  margin-bottom: 6px;
+  font-size: 1rem;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-}
-
-.modifier span {
-  margin-right: 5px;
+  justify-content: space-between;
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #f9f9f9;
 }
 
 .modifier-target {
@@ -73,36 +63,53 @@
   color: #333;
 }
 
-.modifier-type {
-  font-style: italic;
-  color: #666;
-}
-
 .modifier-value {
   font-weight: bold;
   color: #009900;
 }
 
-.modifier-source {
-  color: #999;
+/* Styles pour la jauge de positivité */
+.positivity-gauge {
+  position: relative;
+  height: 12px;
+  width: 150px;
+  background: #eee;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-left: 10px;
+  flex-shrink: 0;
 }
 
-/* Animation de fade in/out */
+.positivity-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.positivity-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: -20px;
+  font-size: 0.8rem;
+  color: #333;
+}
+
+/* Animation fade in/out de l'overlay */
 @keyframes fadeInOut {
   0% { 
-      opacity: 0; 
-      transform: translate(-50%, -25%); 
+    opacity: 0; 
+    transform: translate(-50%, -25%); 
   }
   10% { 
-      opacity: 1; 
-      transform: translate(-50%, -20%); 
+    opacity: 1; 
+    transform: translate(-50%, -20%); 
   }
   90% { 
-      opacity: 1; 
-      transform: translate(-50%, -20%); 
+    opacity: 1; 
+    transform: translate(-50%, -20%); 
   }
   100% { 
-      opacity: 0; 
-      transform: translate(-50%, -25%); 
+    opacity: 0; 
+    transform: translate(-50%, -25%); 
   }
 }

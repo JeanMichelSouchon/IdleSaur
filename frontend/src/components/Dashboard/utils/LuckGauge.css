@@ -1,0 +1,113 @@
+.luck-gauge-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 10px auto;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .luck-gauge-svg {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Fond de la jauge */
+  .luck-gauge-bg {
+    /* strokeWidth et strokeLinecap définis dans le SVG */
+  }
+  
+  /* Arc de la jauge */
+  .luck-gauge-arc {
+    transition: stroke 0.5s ease;
+  }
+  
+  /* Halo dynamique */
+  .halo-mid {
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+  }
+  
+  .halo-low {
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+    animation: haloLowOscillate 3s ease-in-out infinite;
+  }
+  
+  .halo-high-blink {
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8));
+    animation: haloHighBlink 0.5s ease-in-out infinite;
+  }
+  
+  @keyframes haloLowOscillate {
+    0% { filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5)); }
+    50% { filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.7)); }
+    100% { filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5)); }
+  }
+  
+  @keyframes haloHighBlink {
+    0% { filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8)); }
+    50% { filter: drop-shadow(0 0 10px rgba(255, 215, 0, 1)); }
+    100% { filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8)); }
+  }
+  
+  /* Animations lors de la modification de la valeur */
+  .luck-gauge-arc.value-increase {
+    animation: increasePulse 0.8s ease-in-out;
+  }
+  
+  .luck-gauge-arc.value-decrease {
+    animation: decreasePulse 0.8s ease-in-out;
+  }
+  
+  @keyframes increasePulse {
+    0% { filter: drop-shadow(0 0 0px rgba(255, 215, 0, 1)); }
+    50% { filter: drop-shadow(0 0 15px rgba(255, 215, 0, 1)); }
+    100% { filter: drop-shadow(0 0 0px rgba(255, 215, 0, 1)); }
+  }
+  
+  @keyframes decreasePulse {
+    0% { filter: drop-shadow(0 0 0px rgba(0, 0, 0, 1)); }
+    50% { filter: drop-shadow(0 0 15px rgba(0, 0, 0, 1)); }
+    100% { filter: drop-shadow(0 0 0px rgba(0, 0, 0, 1)); }
+  }
+  
+  /* Infos (pourcentage et label) */
+  .luck-gauge-info {
+    margin-top: 10px;
+  }
+  
+  .luck-gauge-percentage-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .luck-gauge-label {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 5px;
+  }
+  
+  @media only screen and (max-width: 768px) {
+    #luck-gauge-container{
+      display: none;
+  }
+  .luck-gauge-info {
+    display: none;
+  }
+  
+  .luck-gauge-percentage-text {
+    display: none;
+  }
+  
+  .luck-gauge-label {
+    display: none;
+  }
+
+  .luck-gauge-container {
+    display: none;
+  }
+  
+  .luck-gauge-svg {
+    display: none;
+  }
+  }

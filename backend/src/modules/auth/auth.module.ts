@@ -13,4 +13,12 @@ export class AuthModule {
     this.authController = new AuthController(this.authService);
     this.router = authRoutes(this.authController);
   }
+
+  /**
+   * Initialise le module en peuplant l'administrateur par défaut.
+   */
+  public async populateDefaultAdmins(): Promise<void> {
+    await this.authService.populateDefaultAdmins();
+    console.log("Initialisation du module Auth terminée.");
+  }
 }

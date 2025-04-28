@@ -10,7 +10,7 @@ export const stealEvents: DynamicEventData[] = [
     actionType: DinosaurAction.Steal,
     minLevel: 4,
     positivityScore: 0,
-    weight: 1,
+    weight: 50,
     descriptions: [
       "Le dinosaure vole habilement et rafle une grosse quantité de ressources.",
       "Un vol réussi, les proies n'ont aucune chance face à lui.",
@@ -63,7 +63,7 @@ export const stealEvents: DynamicEventData[] = [
     actionType: DinosaurAction.Steal,
     minLevel: 4,
     positivityScore: 5,
-    weight: 3,
+    weight: 20,
     descriptions: [
       "Le dinosaure réussit un vol discret, avec des gains modérés.",
       "Un vol modéré qui rapporte sans faire de vagues.",
@@ -116,7 +116,7 @@ export const stealEvents: DynamicEventData[] = [
     actionType: DinosaurAction.Steal,
     minLevel: 4,
     positivityScore: -3,
-    weight: 5,
+    weight: 20,
     descriptions: [
       "Le dinosaure vole un maigre butin, difficile à attraper.",
       "Un vol difficile qui ne rapporte que peu de ressources.",
@@ -169,7 +169,7 @@ export const stealEvents: DynamicEventData[] = [
     actionType: DinosaurAction.Steal,
     minLevel: 4,
     positivityScore: -7,
-    weight: 5,
+    weight: 10,
     descriptions: [
       "Le dinosaure n’a pas réussi à voler de ressources.",
       "Un vol infructueux qui ne rapporte rien.",
@@ -213,7 +213,7 @@ export const stealEvents: DynamicEventData[] = [
     actionType: DinosaurAction.Steal,
     minLevel: 6,
     positivityScore: 10,
-    weight: 2,
+    weight: 5,
     descriptions: [
       "Le dinosaure utilise une stratégie avancée pour voler efficacement.",
       "Un vol stratégique, chaque mouvement est calculé avec précision.",
@@ -266,7 +266,7 @@ export const stealEvents: DynamicEventData[] = [
     actionType: DinosaurAction.Steal,
     minLevel: 10,
     positivityScore: 10,
-    weight: 1,
+    weight: 5,
     descriptions: [
       "Le dinosaure réalise un grand vol, raflant une quantité massive de ressources.",
       "Un vol spectaculaire qui rapporte gros.",
@@ -319,7 +319,7 @@ export const stealEvents: DynamicEventData[] = [
     actionType: DinosaurAction.Steal,
     minLevel: 3,
     positivityScore: 3,
-    weight: 4,
+    weight: 15,
     descriptions: [
       "Le dinosaure dérobe habilement un portefeuille oublié, remplissant ses poches d'une maigre somme.",
       "Un vol discret, digne d'un pickpocket, qui laisse son propriétaire sans un sou.",
@@ -330,7 +330,7 @@ export const stealEvents: DynamicEventData[] = [
     baseModifiers: [
       {
         source: "steal",
-        target: "money",
+        target: "experience",
         base_value: 200,
         additiveStep: 5,
         additiveIncrement: 50,
@@ -363,7 +363,7 @@ export const stealEvents: DynamicEventData[] = [
     actionType: DinosaurAction.Steal,
     minLevel: 8,
     positivityScore: 12,
-    weight: 2,
+    weight: 5,
     descriptions: [
       "Le dinosaure orchestre un vol audacieux dans une véritable banque jurassique, raflant une fortune inimaginable.",
       "Un coup d'éclat, digne des plus grands casseurs, qui lui permet de s'emparer d'une somme colossale.",
@@ -374,7 +374,7 @@ export const stealEvents: DynamicEventData[] = [
     baseModifiers: [
       {
         source: "steal",
-        target: "money",
+        target: "experience",
         base_value: 5000,
         additiveStep: 10,
         additiveIncrement: 1000,

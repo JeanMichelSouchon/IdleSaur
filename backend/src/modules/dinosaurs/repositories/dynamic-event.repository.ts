@@ -16,7 +16,7 @@ interface DatabaseDynamicEventRow extends RowDataPacket {
   weight: number;
   positivity_score: number;
   descriptions: string;    // JSON : tableau de string
-  base_modifiers: string;    // JSON : tableau de DynamicEventModifier
+  base_modifiers: string;  // JSON : tableau de DynamicEventModifier
 }
 
 export class DynamicEventRepository {
@@ -28,12 +28,12 @@ export class DynamicEventRepository {
 
   /**
    * Vérifie si la table dynamic_events est vide et, le cas échéant,
-   * insère les DynamicEvents de base définis dans DinosaurDynamicEventsMap.
+   * insère les DynamicEvents de base définis dans DynamicEventsMap.
    */
   public async seedDynamicEventsIfEmpty(): Promise<void> {
     try {
       const [rows] = await pool.query<RowDataPacket[]>(`SELECT COUNT(*) AS count FROM dynamic_events`);
-      const count = rows[0].count;
+      const count = (rows[0] as any).count;
       if (count > 0) {
         this.init = true;
         console.log('La table dynamic_events est déjà peuplée.');
@@ -75,7 +75,7 @@ export class DynamicEventRepository {
    */
   public async getAllDynamicEvents(): Promise<DynamicEventData[]> {
 
-    if(this.init === false) {
+    if (this.init === false) {
       throw new Error('La base de données n\'est pas initialisée');
     }
 
@@ -87,8 +87,8 @@ export class DynamicEventRepository {
       minLevel: row.min_level,
       weight: row.weight,
       positivityScore: row.positivity_score,
-      descriptions: JSON.parse(row.descriptions),
-      baseModifiers: JSON.parse(row.base_modifiers)
+      descriptions: typeof row.descriptions === 'string' ? JSON.parse(row.descriptions) : row.descriptions,
+      baseModifiers: typeof row.base_modifiers === 'string' ? JSON.parse(row.base_modifiers) : row.base_modifiers
     }));
   }
 
@@ -97,7 +97,7 @@ export class DynamicEventRepository {
    * @param action L'action recherchée.
    */
   public async getDynamicEventsByAction(action: DinosaurAction): Promise<DynamicEventData[]> {
-    if(this.init === false) {
+    if (this.init === false) {
       throw new Error('La base de données n\'est pas initialisée');
     }
     const [rows] = await pool.query<DatabaseDynamicEventRow[]>(
@@ -112,8 +112,8 @@ export class DynamicEventRepository {
       minLevel: row.min_level,
       weight: row.weight,
       positivityScore: row.positivity_score,
-      descriptions: JSON.parse(row.descriptions),
-      baseModifiers: JSON.parse(row.base_modifiers)
+      descriptions: typeof row.descriptions === 'string' ? JSON.parse(row.descriptions) : row.descriptions,
+      baseModifiers: typeof row.base_modifiers === 'string' ? JSON.parse(row.base_modifiers) : row.base_modifiers
     }));
   }
 
@@ -122,7 +122,7 @@ export class DynamicEventRepository {
    * @param id L'identifiant du DynamicEvent.
    */
   public async getDynamicEventById(id: number): Promise<DynamicEventData | null> {
-    if(this.init === false) {
+    if (this.init === false) {
       throw new Error('La base de données n\'est pas initialisée');
     }
     const [rows] = await pool.query<DatabaseDynamicEventRow[]>(
@@ -138,8 +138,8 @@ export class DynamicEventRepository {
       minLevel: row.min_level,
       weight: row.weight,
       positivityScore: row.positivity_score,
-      descriptions: JSON.parse(row.descriptions),
-      baseModifiers: JSON.parse(row.base_modifiers)
+      descriptions: typeof row.descriptions === 'string' ? JSON.parse(row.descriptions) : row.descriptions,
+      baseModifiers: typeof row.base_modifiers === 'string' ? JSON.parse(row.base_modifiers) : row.base_modifiers
     };
   }
 

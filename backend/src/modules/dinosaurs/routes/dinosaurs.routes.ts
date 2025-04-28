@@ -6,6 +6,7 @@ import { CarnivoreActionsController } from '../controllers/carnivore-actions.con
 import { HerbivoreActionsController } from '../controllers/herbivore-actions.controller';
 import { AdvancedActionsController } from '../controllers/advanced-actions.controller';
 import { DinosaurMiddleware } from '../middlewares/dinosaur.middleware';
+import { GameplayController } from '../controllers/gameplay.controller';
 
 /**
  * Définit les routes pour les dinosaures.
@@ -22,6 +23,7 @@ export default function (
   carnivoreActionsController: CarnivoreActionsController,
   herbivoreActionsController: HerbivoreActionsController,
   advancedActionsController: AdvancedActionsController,
+  gameplayController: GameplayController,
   dinosaurMiddleware: DinosaurMiddleware
 ): Router {
   const router = Router();
@@ -99,6 +101,16 @@ export default function (
 
   router.post('/actions/dig', authenticateJWT, dinosaurMiddleware.fetchAndUpdateDinosaur, (req, res) =>
     advancedActionsController.digDinosaur(req, res)
+  );
+
+  // Routes de gameplay 
+
+  router.post('/activate-skill', authenticateJWT, dinosaurMiddleware.fetchAndUpdateDinosaur, (req, res) =>
+    gameplayController.activateSkill(req, res)
+  );
+
+  router.post('/consume-item', authenticateJWT, dinosaurMiddleware.fetchAndUpdateDinosaur, (req, res) =>
+    gameplayController.consumeItem(req, res)
   );
 
   return router;

@@ -25,7 +25,6 @@ export class DinosaurActionDTO {
   constructor(
     name: string,
     description: string,
-    levelRequired: number,
     canPerform: boolean,
     endpoint: string,
     image: string

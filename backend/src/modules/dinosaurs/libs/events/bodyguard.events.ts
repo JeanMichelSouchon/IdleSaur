@@ -19,7 +19,7 @@ export const bodyguardEvents: DynamicEventData[] = [
     baseModifiers: [
       {
         source: "bodyguard",
-        target: "money",
+        target: "experience",
         base_value: 500,  // gain faible
         additiveStep: 5,
         additiveIncrement: 100,
@@ -45,21 +45,12 @@ export const bodyguardEvents: DynamicEventData[] = [
     baseModifiers: [
       {
         source: "bodyguard",
-        target: "money",
+        target: "experience",
         base_value: 750,  // gain modéré
         additiveStep: 10,
         additiveIncrement: 250,
         multiplicativeStep: 0,
         multiplicativeIncrement: 0
-      },
-      {
-        source: "bodyguard",
-        target: "skillPoints",
-        base_value: 10,   // gain modéré
-        additiveStep: 10,
-        additiveIncrement: 10,
-        multiplicativeStep: 25,
-        multiplicativeIncrement: 0.25
       }
     ]
   },
@@ -80,7 +71,7 @@ export const bodyguardEvents: DynamicEventData[] = [
     baseModifiers: [
       {
         source: "bodyguard",
-        target: "skillPoints",
+        target: "experience",
         base_value: 50,
         additiveStep: 0,
         additiveIncrement: 0,
@@ -106,21 +97,12 @@ export const bodyguardEvents: DynamicEventData[] = [
     baseModifiers: [
       {
         source: "bodyguard",
-        target: "money",
+        target: "experience",
         base_value: 5000,
         additiveStep: 20,
         additiveIncrement: 5000,
         multiplicativeStep: 0,
         multiplicativeIncrement: 0
-      },
-      {
-        source: "bodyguard",
-        target: "skillPoints",
-        base_value: 50,
-        additiveStep: 20,
-        additiveIncrement: 50,
-        multiplicativeStep: 50,
-        multiplicativeIncrement: 0.5
       },
       {
         source: "bodyguard",

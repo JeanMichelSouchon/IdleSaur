@@ -6,6 +6,7 @@ export const getLevelModifiers = (level: number): StatModifier[] => {
   // Bonus additif : +1000 par niveau au-delà de 1 pour les capacités de base
   if (level > 1) {
     const bonus = 1000 * (level - 1);
+    const percentageBonus = (level - 1) / 25;
     modifiers.push({
       source: "level",
       type: "additive",
@@ -23,6 +24,24 @@ export const getLevelModifiers = (level: number): StatModifier[] => {
       type: "additive",
       value: bonus,
       target: "base_max_hunger"
+    });
+    modifiers.push({
+      source: "level",
+      type: "additive",
+      value: percentageBonus * 1.5,
+      target: "hunger_increase_multiplier"
+    });
+    modifiers.push({
+      source: "level",
+      type: "additive",
+      value: percentageBonus,
+      target: "energy_recovery_multiplier"
+    });
+    modifiers.push({
+      source: "level",
+      type: "additive",
+      value: percentageBonus * 1.5,
+      target: "energy_decay_multiplier"
     });
   }
 

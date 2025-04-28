@@ -1,0 +1,73 @@
+.age-epoch-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0;
+}
+
+/* Styles pour l'affichage de l'âge */
+.age-container {
+  text-align: center;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.age-container:hover {
+  transform: scale(1.05);
+}
+.age-label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+.age-factor {
+  font-size: 14px;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* Styles pour la jauge d'époque */
+.epoch-container {
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.epoch-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4px;
+  transition: opacity 0.3s ease;
+}
+.epoch-header:hover {
+  opacity: 0.85;
+}
+.epoch-name {
+  font-size: 22px;
+  font-weight: bold;
+  color: #555;
+}
+.epoch-level {
+  font-size: 18px;
+  color: #777;
+}
+.epoch-bar {
+  position: relative;
+  height: 12px;
+  background-color: #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: box-shadow 0.5s ease-out;
+}
+.epoch-bar:hover {
+  box-shadow: 0 0 8px rgba(255, 152, 0, 0.6);
+}
+.epoch-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffcc80, #ff9800);
+  border-radius: 6px;
+  transition: width 0.5s ease-out;
+}

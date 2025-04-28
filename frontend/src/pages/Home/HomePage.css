@@ -76,7 +76,7 @@
 }
 
 /* Overlay */
-.overlay {
+.home-page-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -89,7 +89,7 @@
     z-index: 999;
 }
 
-.overlay.show {
+.home-page-overlay.show {
     display: flex;
 }
 

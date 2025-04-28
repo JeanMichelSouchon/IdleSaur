@@ -3,18 +3,20 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Configuration de la connexion à la base de données
+// Définir la configuration de connexion en utilisant socketPath si nécessaire
 const dbConfig = {
-  host: process.env.DB_HOST || 'localhost',
+  // Si DB_HOST commence par '/', c'est un chemin Unix (socket)
+  ...(process.env.DB_HOST && process.env.DB_HOST.startsWith('/')
+      ? { socketPath: process.env.DB_HOST }
+      : { host: process.env.DB_HOST || 'localhost' }),
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || 'password',
-  database: process.env.DB_NAME || 'mydatabase',
+  database: process.env.DB_NAME || 'iddlesaur',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
 };
 
-// Créer un pool de connexions
 const pool = mysql.createPool(dbConfig);
 
 export default pool;

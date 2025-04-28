@@ -1,5 +1,4 @@
-export type EventModifierTarget = 'energy' | 'food' | 'hunger' | 'experience' | 'karma' | 'money' | 'skillPoints';
-
+export type EventModifierTarget = 'energy' | 'food' | 'hunger' | 'experience' | 'karma';
 
 export interface EventModifier {
     source: string;

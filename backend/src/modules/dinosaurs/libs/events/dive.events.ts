@@ -171,10 +171,150 @@ export const diveEvents: DynamicEventData[] = [
       },
       {
         source: "dive",
-        target: "money",
+        target: "experience",
         base_value: 1000,
         additiveStep: 10,
         additiveIncrement: 1000,
+        multiplicativeStep: 0,
+        multiplicativeIncrement: 0
+      }
+    ]
+  },
+  {
+    id: 0,
+    name: "Plongée décevante",
+    actionType: DinosaurAction.Dive,
+    minLevel: 5,
+    positivityScore: -5,
+    weight: 2,
+    descriptions: [
+      "Une plongée qui tourne mal, révélant un stock inattendu d'armes et d'armures englouties.",
+      "Les abysses déçoivent, laissant derrière elles 10 armes et 10 armures éparpillées.",
+      "Un plongeon raté qui, en guise de consolation, offre un lot d'équipements militaires oubliés.",
+      "Les eaux troubles recèlent 10 armes et 10 armures, vestiges d'un passé tumultueux.",
+      "Un plongeon décevant qui se termine par la découverte de 10 armes et 10 armures abandonnées."
+    ],
+    baseModifiers: [
+      {
+        source: "dive",
+        target: "experience",
+        base_value: 10,
+        additiveStep: 0,
+        additiveIncrement: 0,
+        multiplicativeStep: 0,
+        multiplicativeIncrement: 0
+      },
+      {
+        source: "dive",
+        target: "experience",
+        base_value: 10,
+        additiveStep: 0,
+        additiveIncrement: 0,
+        multiplicativeStep: 0,
+        multiplicativeIncrement: 0
+      }
+    ]
+  },
+  {
+    id: 0,
+    name: "Remontée catastrophique",
+    actionType: DinosaurAction.Dive,
+    minLevel: 10,
+    positivityScore: -7,
+    weight: 1,
+    descriptions: [
+      "Une remontée d'eau en catastrophe révèle un trésor d'armes et d'armures, fruit d'un plongeon désastreux.",
+      "Le dinosaure remonte, portant avec lui 10 armes et 10 armures, vestiges d'une plongée ratée.",
+      "Un plongeon se transforme en fiasco, offrant un butin inattendu d'armes et d'armures.",
+      "Les profondeurs dévoilent, dans un moment de chaos, 10 armes et 10 armures égarées.",
+      "Une plongée se termine en tragédie, et le dinosaure hérite de 10 armes et 10 armures abîmées."
+    ],
+    baseModifiers: [
+      {
+        source: "dive",
+        target: "experience",
+        base_value: 10,
+        additiveStep: 0,
+        additiveIncrement: 0,
+        multiplicativeStep: 0,
+        multiplicativeIncrement: 0
+      },
+      {
+        source: "dive",
+        target: "experience",
+        base_value: 10,
+        additiveStep: 0,
+        additiveIncrement: 0,
+        multiplicativeStep: 0,
+        multiplicativeIncrement: 0
+      }
+    ]
+  },
+  {
+    id: 0,
+    name: "Plongée fraternelle",
+    actionType: DinosaurAction.Dive,
+    minLevel: 5,
+    positivityScore: 5,
+    weight: 2,
+    descriptions: [
+      "Un plongeon qui devient moment de camaraderie, où 5 amis et 1 employé se joignent à lui sous l'eau.",
+      "Les eaux amicales réunissent le dinosaure avec 5 compagnons et un renfort inattendu.",
+      "Une plongée chaleureuse où la fraternité se traduit par l'arrivée de 5 amis et d'un employé.",
+      "Le fond marin devient le théâtre d'une union surprenante, offrant 5 amis et 1 collaborateur.",
+      "Un moment subaquatique qui tisse des liens, lui procurant 5 amis et 1 employé fidèle."
+    ],
+    baseModifiers: [
+      {
+        source: "dive",
+        target: "experience",
+        base_value: 5,
+        additiveStep: 0,
+        additiveIncrement: 0,
+        multiplicativeStep: 0,
+        multiplicativeIncrement: 0
+      },
+      {
+        source: "dive",
+        target: "experience",
+        base_value: 1,
+        additiveStep: 0,
+        additiveIncrement: 0,
+        multiplicativeStep: 0,
+        multiplicativeIncrement: 0
+      }
+    ]
+  },
+  {
+    id: 0,
+    name: "Plongée solidaire",
+    actionType: DinosaurAction.Dive,
+    minLevel: 10,
+    positivityScore: 7,
+    weight: 1,
+    descriptions: [
+      "Un plongeon héroïque qui se conclut par un rassemblement solidaire de 10 amis et 2 employés.",
+      "Les profondeurs se font généreuses en offrant 10 amis et 2 collaborateurs lors d'une plongée mémorable.",
+      "Un exploit sous-marin qui renforce ses rangs avec 10 amis et 2 employés dévoués.",
+      "Les eaux mystiques lui offrent, en guise de récompense, 10 amis et 2 renforts inattendus.",
+      "Une plongée légendaire qui tisse des liens forts, lui procurant 10 amis et 2 employés."
+    ],
+    baseModifiers: [
+      {
+        source: "dive",
+        target: "experience",
+        base_value: 10,
+        additiveStep: 0,
+        additiveIncrement: 0,
+        multiplicativeStep: 0,
+        multiplicativeIncrement: 0
+      },
+      {
+        source: "dive",
+        target: "experience",
+        base_value: 2,
+        additiveStep: 0,
+        additiveIncrement: 0,
         multiplicativeStep: 0,
         multiplicativeIncrement: 0
       }

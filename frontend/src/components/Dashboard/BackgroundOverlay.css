@@ -7,13 +7,13 @@
   z-index: -1;
 }
 
-/* Effet de sommeil */
+/* Effet de sommeil : assombrissement de l'image de fond */
 .background-overlay.sleeping img {
   filter: brightness(0.6) contrast(166%) saturate(0.6);
   transition: filter 2s ease;
 }
 
-/* Animation pour événement */
+/* Animation lors d'un événement */
 .background-overlay[class*="event-animation"] img {
   animation: eventPulse 1s ease;
 }
@@ -24,7 +24,7 @@
   100% { transform: scale(1); }
 }
 
-/* Styles des particules */
+/* Container des particules (affichées sous forme d'emoji) */
 .particles-container {
   position: absolute;
   width: 100%;
@@ -35,34 +35,12 @@
   left: 0;
 }
 
+/* Style de base pour les particules (emoji) */
 .particle {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+  font-size: 1.5rem;
   opacity: 0;
   animation: particleRise var(--animationDuration) forwards;
-  filter: brightness(1.5);
-}
-
-.particle-food {
-  background-color: rgba(34,193,34,1);
-  box-shadow: 0 0 10px rgba(34,193,34,0.7);
-}
-
-.particle-experience {
-  background-color: rgba(30,144,255,1);
-  box-shadow: 0 0 10px rgba(30,144,255,0.7);
-}
-
-.particle-levelUp {
-  background-color: rgba(255,215,0,1);
-  box-shadow: 0 0 10px rgba(255,215,0,0.7);
-}
-
-.particle-karma {
-  background-color: rgba(128,0,128,1);
-  box-shadow: 0 0 10px rgba(128,0,128,0.7);
 }
 
 @keyframes particleRise {
@@ -76,7 +54,7 @@
   }
 }
 
-/* Effets de karma */
+/* Effets de karma : l'image de fond s'illumine ou s'assombrit */
 .background-overlay[class*="karma-brighten"] img {
   animation: brightenEffect 2s ease;
 }
@@ -97,7 +75,7 @@
   100% { filter: brightness(1) blur(0px); }
 }
 
-/* Effet de montée de niveau */
+/* Effet de montée de niveau sur l'image de fond */
 .background-overlay[class*="level-up"] img {
   animation: levelUpEffect 2s ease-in-out;
 }
@@ -110,5 +88,5 @@
   100% { filter: brightness(1) saturate(1); transform: scale(1); }
 }
 
-/* Classes vides pour les animations d'action */
+/* Classes vides pour les animations d'action (conservées pour compatibilité) */
 .background-overlay[class*="action-"] img { }

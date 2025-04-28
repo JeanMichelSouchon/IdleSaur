@@ -1,0 +1,46 @@
+.energy-gauge {
+    width: 100%;
+    max-width: 400px;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 20px;
+  }
+  
+  .energy-label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .energy-bar {
+    position: relative;
+    height: 25px;
+    background-color: #e0e0e0;
+    border-radius: 12.5px;
+    overflow: hidden;
+  }
+  
+  .energy-fill {
+    height: 100%;
+    transition: width 0.5s ease-out;
+  }
+  
+  /* Effet d'éclat lorsqu'elle est pleine */
+  @keyframes sparkleAnimation {
+    0% {
+      box-shadow: 0 0 10px 2px rgba(255, 255, 255, 1);
+    }
+    100% {
+      box-shadow: none;
+    }
+  }
+  
+  .sparkle {
+    animation: sparkleAnimation 1s ease-out;
+  }
+  
+  .energy-text {
+    margin-top: 5px;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  

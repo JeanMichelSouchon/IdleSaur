@@ -1,38 +1,82 @@
-
-
-/* Base styles for navigation */
-.nav {
+/****************************************
+ * Structure de base du header
+ ****************************************/
+ .header-container {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    position: relative; /* Nécessaire pour positionner le burger en mobile */
 }
 
-.nav a {
-    margin: 2px;
+/****************************************
+ * Zones "desktop-left" / "desktop-right" 
+ * -> masquées en mobile
+ ****************************************/
+.desktop-left, 
+.desktop-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Peanut', sans-serif;
+    font-size: 1.2rem;
+}
+
+.header-btn-left,
+.header-btn-right {
+    margin: 0 5px;
     border: 2px solid black;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.8);
-    padding: 10px;
+    padding: 8px 12px;
     text-decoration: none;
+    cursor: pointer;
     transition: background-color 0.3s ease;
+    font-family: 'Peanut', sans-serif;
+    font-size: 1.2rem;
+    color: black;
 }
 
-.nav a:hover {
-    background-color: rgba(200, 200, 200, 0.8);
-}
 
+/****************************************
+ * Le titre "IdleSaur🦖"
+ ****************************************/
 .Title {
-    margin: 2px;
+    margin: 0;
+    padding: 5px 10px;
     border: 2px solid black;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
+    font-size: 1.4rem; /* un peu plus grand */
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap; 
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.15);
 }
 
-/* Hamburger icon */
+/****************************************
+ * Apparence hover sur les boutons
+ ****************************************/
+.header-btn-left:hover,
+.header-btn-right:hover,
+.nav-grid a:hover,
+.nav-grid button:hover {
+    background-color: rgba(200, 200, 200, 0.8);
+    color: white;
+}
+
+/****************************************
+ * En desktop, .nav est masqué 
+ * (on l'utilise seulement en mobile)
+ ****************************************/
+.nav {
+    display: none;
+}
+
+/****************************************
+ * Icône hamburger (mobile) 
+ * -> caché en desktop, visible en mobile
+ ****************************************/
 .burger-icon {
     display: none;
     flex-direction: column;
@@ -40,18 +84,56 @@
     width: 30px;
     height: 21px;
     cursor: pointer;
+    z-index: 1002; 
 }
 
 .burger-icon span {
     display: block;
     width: 100%;
-    height: 3px;
+    height: 5px;
     background-color: black;
+    border: 0.5px solid white;
     transition: transform 0.3s, opacity 0.3s;
 }
 
-/* Mobile styles */
+/****************************************
+ * Effet "burger ouvert" 
+ ****************************************/
+.burger-icon.open span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+    background-color: #0095ff;
+}
+
+.burger-icon.open span:nth-child(2) {
+    opacity: 0; 
+}
+
+.burger-icon.open span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+    background-color: #0095ff;
+}
+
+/****************************************
+ * Modes mobiles: max-width: 768px
+ ****************************************/
 @media only screen and (max-width: 768px) {
+
+    /* Masquer les zones desktop */
+    .desktop-left,
+    .desktop-right,
+    .Title {
+        display: none;
+    }
+
+    /* Afficher l'icône burger en mobile */
+    .burger-icon {
+        display: flex;
+
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Nav => plein écran (overlay) */
     .nav {
         position: fixed;
         top: 0;
@@ -59,64 +141,71 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.8);
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        transform: translateX(-100%);
-        transition: transform 0.2s ease-in-out;
+        z-index: 1001;
+        display: flex;
+        align-items: flex-start; /* pour coller la grille en haut */
+        justify-content: center; /* centrer horizontalement */
+        transform: translateY(-100%);
+        transition: transform 0.3s ease-in-out;
+        
     }
 
     .nav.open {
-        transform: translateX(0); /* Show the menu when open */
+        transform: translateY(0);
     }
 
-    .nav a {
-        color: white;
-        font-size: 1.5rem;
-        background-color:#0095ff;
-        margin: 20px 0;
-    }
-
-    /* Show the burger icon on small screens */
-    .burger-icon {
+    /* 
+       Conteneur de la grille 2×2,
+       ~50% de la hauteur, décalée de 30px 
+    */
+    .nav-grid {
+        margin-top: 30px;
+        width: 80%;
+        height: 50vh;
         display: flex;
-        position: absolute;
-        color: #0095ff;
-        top: 15px;
-        right: 20px;
-        z-index: 1001;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 10px;
+        flex-wrap: wrap;    
+        align-content: center;
+        border-radius: 15px;
     }
 
-    .burger-icon span:nth-child(1) {
-        background-color: #000000;
-    }
-
-    .burger-icon span:nth-child(2) {
-        background-color: #000000;
-    }
-
-    .burger-icon span:nth-child(3) {
-        background-color: #000000;
-    }
-    /* Hamburger icon open state */
-    .burger-icon.open span:nth-child(1) {
-        transform: translateY(9px) rotate(45deg);
+    .nav-grid a,
+    .nav-grid button {
+        color: white;
         background-color: #0095ff;
-        
+        margin: 0;
+        border: 2px solid white;
+        padding: 10px;
+        text-align: center;
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 2px 2px 4px rgba(255,255,255,0.3);
+        font-family: 'Peanut', sans-serif;
+        font-size: 1.2rem;
     }
+}
 
-    .burger-icon.open span:nth-child(2) {
-        opacity: 0; /* Hide middle line */
-        
-    }
+/****************************************
+ * Styles desktop: min-width: 769px
+ ****************************************/
+@media only screen and (min-width: 769px) {
 
-    .burger-icon.open span:nth-child(3) {
-        transform: translateY(-9px) rotate(-45deg);
-        background-color: #0095ff;
-        
-    }
-
+    /* On affiche nos 3 zones Desktop */
+    .desktop-left,
+    .desktop-right,
     .Title {
+        display: flex;
+    }
+
+    /* Le burger icon est masqué en desktop */
+    .burger-icon {
         display: none;
     }
+}
+
+
+@font-face {
+    font-family:"Peanut";
+    src: url("../../../public/assets/fonts/PeanutMoney.ttf") format("truetype");
 }

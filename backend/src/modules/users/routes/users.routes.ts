@@ -21,6 +21,11 @@ export default function (usersController: UsersController): Router {
     authenticateJWT,
     (req, res) => usersController.changeUsername(req, res)
   );
+  router.get(
+    '/all',
+    authenticateJWT, 
+    (req, res) => usersController.getAllUsers(req, res)
+  );
 
   return router;
 }

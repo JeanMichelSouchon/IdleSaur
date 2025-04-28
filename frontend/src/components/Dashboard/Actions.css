@@ -1,61 +1,21 @@
 .actions {
     margin: 2px;
     flex-grow: 1;
-    background-color: rgba(0, 149, 255, 0);
+    background-color: transparent;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-}
-
-.actions button {
-    font-family: 'Peanut', sans-serif;
-    font-size: 1.2rem;
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    background-color: #0095ff;
-    color: white;
-    transition: background-color 0.3s ease;
-    display: flex;
     align-items: center;
-}
-
-.actions button:hover {
-    background-color: #007acc;
-}
-
-.actions button img.action-image {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-}
-
-.actions button:disabled {
-    display: none;
-}
-
-/* Styles pour les écrans mobiles */
-@media (max-width: 768px) {
-    .actions {
-        flex-direction: row;
-        justify-content: space-around;
-    }
-
-    .actions button {
-        width: 40px;
-        height: 40px;
-        padding: 0;
-        border-radius: 50%;
-        font-size: 0; /* Masquer le texte */
-        justify-content: center;
-    }
-
-    .actions button img.action-image {
-        margin: 0;
-        width: 20px;
-        height: 20px;
-    }
-}
+  }
+  
+  .actions-header {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .actions-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  

@@ -1,0 +1,47 @@
+.food-gauge {
+    width: 100%;
+    max-width: 400px;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 20px;
+  }
+  
+  .food-label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .food-bar {
+    position: relative;
+    height: 25px;
+    background-color: #e0e0e0;
+    border-radius: 12.5px;
+    overflow: hidden;
+    transition: box-shadow 0.5s ease-out;
+  }
+  
+  /* Animation de clignotement pour la barre de nourriture */
+  @keyframes blinkAnimation {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
+  .blink {
+    animation: blinkAnimation 1s infinite;
+  }
+  
+  .food-fill {
+    height: 100%;
+    transition: width 0.5s ease-out;
+  }
+  
+  .food-text {
+    margin-top: 5px;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  

@@ -1,0 +1,61 @@
+.karma-gauge {
+  width: 100%;
+  max-width: 400px;
+  margin: 10px 0;
+  text-align: center;
+  font-size: 20px; /* Taille de police augmentée */
+}
+
+.karma-label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.karma-bar {
+  position: relative;
+  height: 25px;
+  background-color: #e0e0e0;
+  border-radius: 12.5px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: box-shadow 0.5s ease-out;
+}
+
+.karma-fill {
+  height: 100%;
+  transition: width 0.5s ease-out;
+}
+
+/* Remplissage négatif avec dégradé progressif vers le noir.
+   La barre se remplit vers la gauche à partir du centre. */
+.karma-fill.negative {
+  background: linear-gradient(to left, #777, #000);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-100%);
+}
+
+/* Remplissage positif avec dégradé progressif vers le jaune or.
+   La barre se remplit vers la droite à partir du centre. */
+.karma-fill.positive {
+  background: linear-gradient(to right, #fff8dc, #FFD700);
+  position: absolute;
+  left: 50%;
+}
+
+/* Marqueur central de la jauge */
+.karma-center {
+  position: absolute;
+  left: 50%;
+  width: 2px;
+  height: 100%;
+  background-color: #555;
+}
+
+.karma-text {
+  margin-top: 5px;
+  font-size: 15px;
+  font-weight: bold;
+}

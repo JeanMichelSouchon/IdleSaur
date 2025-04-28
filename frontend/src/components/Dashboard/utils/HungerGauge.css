@@ -1,0 +1,53 @@
+.hunger-gauge {
+    width: 100%;
+    max-width: 400px;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 20px;
+  }
+  
+  .hunger-label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .hunger-bar {
+    position: relative;
+    height: 25px;
+    background-color: #e0e0e0;
+    border-radius: 12.5px;
+    overflow: hidden;
+    transition: box-shadow 0.5s ease-out;
+  }
+  
+  /* Animation de clignotement lent pour la bordure */
+  @keyframes blinkSlow {
+    0%, 100% { box-shadow: 0 0 12px rgba(183, 28, 28, 0.8); }
+    50% { box-shadow: 0 0 12px rgba(183, 28, 28, 0.0); }
+  }
+  
+  /* Animation de clignotement rapide pour la bordure */
+  @keyframes blinkFast {
+    0%, 100% { box-shadow: 0 0 12px rgba(183, 28, 28, 0.8); }
+    50% { box-shadow: 0 0 12px rgba(183, 28, 28, 0.0); }
+  }
+  
+  .blink-slow {
+    animation: blinkSlow 2s infinite;
+  }
+  
+  .blink-fast {
+    animation: blinkFast 1s infinite;
+  }
+  
+  .hunger-fill {
+    height: 100%;
+    transition: width 0.5s ease-out;
+  }
+  
+  .hunger-text {
+    margin-top: 5px;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  
