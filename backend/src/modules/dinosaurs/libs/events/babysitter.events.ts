@@ -80,7 +80,7 @@ export const babysitterEvents: DynamicEventData[] = [
       },
       {
         source: "babysitter",
-        target: "experience",
+        target: "skillPoints",
         base_value: 50,
         additiveStep: 10,
         additiveIncrement: 5,
@@ -115,7 +115,7 @@ export const babysitterEvents: DynamicEventData[] = [
       },
       {
         source: "babysitter",
-        target: "experience",
+        target: "skillPoints",
         base_value: 50,
         additiveStep: 20,
         additiveIncrement: 50,
@@ -150,7 +150,7 @@ export const babysitterEvents: DynamicEventData[] = [
     baseModifiers: [
       {
         source: "babysitter",
-        target: "experience",
+        target: "employees",
         base_value: 1,
         additiveStep: 0,
         additiveIncrement: 0,
@@ -176,7 +176,7 @@ export const babysitterEvents: DynamicEventData[] = [
     baseModifiers: [
       {
         source: "babysitter",
-        target: "experience",
+        target: "friends",
         base_value: 5,
         additiveStep: 0,
         additiveIncrement: 0,
@@ -202,7 +202,7 @@ export const babysitterEvents: DynamicEventData[] = [
     baseModifiers: [
       {
         source: "babysitter",
-        target: "experience",
+        target: "employees",
         base_value: 5,
         additiveStep: 0,
         additiveIncrement: 0,
@@ -228,7 +228,7 @@ export const babysitterEvents: DynamicEventData[] = [
     baseModifiers: [
       {
         source: "babysitter",
-        target: "experience",
+        target: "friends",
         base_value: 10,
         additiveStep: 0,
         additiveIncrement: 0,

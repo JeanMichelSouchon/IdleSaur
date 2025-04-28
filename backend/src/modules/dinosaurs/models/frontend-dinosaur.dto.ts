@@ -3,6 +3,9 @@ import { Epoch } from './epoch.enum';
 import { DinosaurType } from './dinosaur-type.interface';
 import { DinosaurDiet } from './dinosaur-diet.interface';
 import { StatModifier } from './stats-modifiers.types';
+import { DinosaurSkillInstanceDTO } from './dinosaur-skill-instance.dto';
+import { DinosaurItemInstanceDTO } from './dinosaur-item-instance.dto';
+import { DinosaurBuildingInstanceDTO } from './dinosaur-building-instance.dto';
 import { DinosaurLifeDTO } from './dinosaur-life.dto';
 import { DinosaurSoulSkillInstanceDTO } from './dinosaur-soul-skill-instance.dto';
 
@@ -26,6 +29,9 @@ export class FrontendDinosaurDTO {
   
 
   // Assets détenus par le dinosaure ajouté recemments
+  @Expose() @Type(() => DinosaurSkillInstanceDTO) skills!: DinosaurSkillInstanceDTO[];
+  @Expose() @Type(() => DinosaurItemInstanceDTO) items!: DinosaurItemInstanceDTO[];
+  @Expose() @Type(() => DinosaurBuildingInstanceDTO) buildings!: DinosaurBuildingInstanceDTO[];
   @Expose() @Type(() => DinosaurSoulSkillInstanceDTO) soulSkills!: DinosaurSoulSkillInstanceDTO[];
 
   /*
@@ -92,6 +98,7 @@ export class FrontendDinosaurDTO {
   @Expose() age!: number;
   @Expose() experience!: number;
   @Expose() level!: number;
+  @Expose() money!: number;
   @Expose() skill_points!: number;
   @Expose() epoch!: Epoch;
 
@@ -103,6 +110,11 @@ export class FrontendDinosaurDTO {
   @Expose() food!: number;
   @Expose() hunger!: number;
 
+  //- Advanced
+  @Expose() weapons!: number;
+  @Expose() armors!: number;
+  @Expose() friends!: number;
+  @Expose() employees!: number;
   
   
   /*
@@ -133,6 +145,10 @@ export class FrontendDinosaurDTO {
   @Expose() final_hunger_increase_when_recovery!: number;
 
   @Expose() final_food_production!: number;
+  @Expose() final_weapon_production!: number;
+  @Expose() final_armor_production!: number;
+  @Expose() final_friend_production!: number;
+  @Expose() final_employee_production!: number; 
 
   @Expose() final_luck_factor_multiplier!: number;
   @Expose() final_earn_food_global_multiplier!: number;
@@ -140,5 +156,6 @@ export class FrontendDinosaurDTO {
   @Expose() final_earn_food_carni_multiplier!: number;
   @Expose() final_earn_experience_multiplier!: number;
   @Expose() final_earn_skill_point_multiplier!: number;
+  @Expose() final_earn_money_multiplier!: number;
   @Expose() final_earn_karma_multiplier!: number;
 }

@@ -37,9 +37,14 @@ export class DinosaurFactory {
       energy: DINOSAUR_CONSTANTS.INITIAL_ENERGY,
       food: DINOSAUR_CONSTANTS.INITIAL_FOOD,
       hunger: DINOSAUR_CONSTANTS.INITIAL_HUNGER,
+      weapons: 0,
+      armors: 0,
+      friends: 0,
+      employees: 0,
       karma: 0,
       experience: isAdmin ? 100000 : 0,   
-      level: 1,        
+      level: 1,
+      money: isAdmin ? 100000 : 0,          
       skill_points: isAdmin ? 100000 : 0,   
       epoch: Epoch.Ancient_Epoch1,
       created_at: new Date(),
@@ -49,6 +54,9 @@ export class DinosaurFactory {
       last_update_by_time_service: new Date(),
       is_sleeping: false,
       is_dead: false,
+      skills: [],
+      items: [],
+      buildings: [],
       soul_skills: [] // Ajout des Soul Skills
     };
 
@@ -71,9 +79,14 @@ export class DinosaurFactory {
       energy: DINOSAUR_CONSTANTS.INITIAL_ENERGY,
       food: DINOSAUR_CONSTANTS.INITIAL_FOOD,
       hunger: DINOSAUR_CONSTANTS.INITIAL_HUNGER,
+      weapons: 0,
+      armors: 0,
+      friends: 0,
+      employees: 0,
       karma: (dinoDto.karma * DINOSAUR_CONSTANTS.KARMA_REDUCTION_FACTOR_AFTER_DEATH ) + DINOSAUR_CONSTANTS.KARMA_GAIN_AFTER_DEATH_REDUCTION,
       experience: isAdmin ? 100000 : 0,   
-      level: 1,       
+      level: 1,
+      money: isAdmin ? 100000 : 0,          
       skill_points: isAdmin ? 100000 : 0, 
       epoch: Epoch.Ancient_Epoch1,
       created_at: dinoDto.created_at,
@@ -83,6 +96,9 @@ export class DinosaurFactory {
       last_update_by_time_service: new Date(),
       is_sleeping: false,
       is_dead: false,
+      skills: [],
+      items: [],
+      buildings: [],
       soul_skills: [] // Ajout des Soul Skills
     };
 
@@ -102,8 +118,43 @@ export class DinosaurFactory {
       ...levelModifiers
     ];
 
+    if (dbDino.skills && dbDino.skills.length > 0) {
+      dbDino.skills.forEach(skill => {
+        if (skill.isPurchased) {
+          allModifiers = allModifiers.concat(skill.statModifiers);
+        }
+      });
+    }
+
+    if (dbDino.items && dbDino.items.length > 0) {
+      dbDino.items.forEach(item => {
+        if (item.itemType === 'persistent' && item.levels && item.levels.length > 0) {
+          const levelDef = item.levels.find(lvl => lvl.level === item.currentLevelOrQuantity);
+          if (levelDef) {
+            allModifiers = allModifiers.concat(levelDef.statModifiers);
+          }
+        }
+      });
+    }
+
+    if (dbDino.buildings && dbDino.buildings.length > 0) {
+      dbDino.buildings.forEach(building => {
+        // Ajouter les modificateurs de base du bâtiment
+        allModifiers = allModifiers.concat(building.statModifiers);
     
-   
+        // Ajouter les modificateurs de tous les niveaux d'amélioration achetés
+        if (building.purchasedUpgrades) {
+          Object.entries(building.purchasedUpgrades).forEach(([upgradeId, isPurchased]) => {
+            if (isPurchased) {
+              const upgradeNode = building.improvementTree.find(node => node.id === Number(upgradeId));
+              if (upgradeNode) {
+                allModifiers = allModifiers.concat(upgradeNode.statModifiers);
+              }
+            }
+          });
+        }
+      });
+    }    
 
     // NEW: Ajout des modificateurs des Soul Skills
     if (dbDino.soul_skills && dbDino.soul_skills.length > 0) {
@@ -127,10 +178,15 @@ export class DinosaurFactory {
     const final_earn_food_carni_multiplier = calculateFinalStat(1, allModifiers.filter(mod => mod.target === "earn_food_carni_multiplier"));
     const final_earn_experience_multiplier = calculateFinalStat(1, allModifiers.filter(mod => mod.target === "earn_experience_multiplier"));
     const final_earn_skill_point_multiplier = calculateFinalStat(1, allModifiers.filter(mod => mod.target === "earn_skill_point_multiplier"));
+    const final_earn_money_multiplier = calculateFinalStat(1, allModifiers.filter(mod => mod.target === "earn_money_multiplier"));
     const final_earn_karma_multiplier = calculateFinalStat(1, allModifiers.filter(mod => mod.target === "earn_karma_multiplier"));
 
     // Calcul des productions finales pour les nouveaux attributs (valeur de base = 0)
     const final_food_production = calculateFinalStat(0, allModifiers.filter(mod => mod.target === "food_production"));
+    const final_weapon_production = calculateFinalStat(0, allModifiers.filter(mod => mod.target === "weapon_production"));
+    const final_armor_production = calculateFinalStat(0, allModifiers.filter(mod => mod.target === "armor_production"));
+    const final_friend_production = calculateFinalStat(0, allModifiers.filter(mod => mod.target === "friend_production"));
+    const final_employee_production = calculateFinalStat(0, allModifiers.filter(mod => mod.target === "employee_production"));
 
     // Calcul des valeurs finales pour les attributs de base
     // les modificateurs sont appliqués aux valeurs "constantes" définies dans le fichier de configuration
@@ -233,11 +289,16 @@ export class DinosaurFactory {
       karma: dbDino.karma,
       experience: dbDino.experience,
       level: dbDino.level,
+      money: dbDino.money,
       skill_points: dbDino.skill_points,
       epoch: dbDino.epoch,
       energy: dbDino.energy,
       food: dbDino.food,
       hunger: dbDino.hunger,
+      weapons: dbDino.weapons,
+      armors: dbDino.armors,
+      friends: dbDino.friends,
+      employees: dbDino.employees,
       // Génétique
       type: dbDino.type,
       diet: dbDino.diet,
@@ -257,14 +318,22 @@ export class DinosaurFactory {
       final_earn_food_carni_multiplier,
       final_earn_experience_multiplier,
       final_earn_skill_point_multiplier,
+      final_earn_money_multiplier,
       final_earn_karma_multiplier,
       final_food_production,
+      final_weapon_production,
+      final_armor_production,
+      final_friend_production,
+      final_employee_production,
       // Nouveaux attributs pour le luck factor
       past_lives_average_karma: pastLivesAverageKarma,
       initial_luck_factor: clampedInitialLuckFactor,
       final_luck_factor_multiplier: finalLuckFactorMultiplier,
       final_luck_factor: luckFactor,
       // Assets récents
+      skills: dbDino.skills,
+      items: dbDino.items,
+      buildings: dbDino.buildings,
       soulSkills: dbDino.soul_skills 
     };
 
