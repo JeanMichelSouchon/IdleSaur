@@ -35,17 +35,21 @@ const Header: React.FC = () => {
       </div>
 
       {/* -- Titre au centre (desktop) -- */}
-      <div className="Title">IdleSaur🦖</div>
+      <div className="Title">
+      <Link to="/dashboard" className="header-btn-left">
+        IdleSaur&nbsp;🦖  
+        </Link>
+        </div>
 
       {/* -- Zone droite (desktop) : PvP / Classements -- */}
       <div className="desktop-right">
 
-        <button
+        {/* <button
           className="header-btn-right"
           onClick={() => openOverlay('ranking')}
         >
           Classements&nbsp;🏆
-        </button>
+        </button> */}
       </div>
 
       {/* -- Icône burger (mobile) -- */}
@@ -64,6 +68,9 @@ const Header: React.FC = () => {
       */}
       <nav className={menuOpen ? 'nav open' : 'nav'}>
         <div className="nav-grid">
+        <Link to="/dashboard" className="header-btn-left">
+        IdleSaur&nbsp;🦖  
+        </Link>
           <Link
             to="/user-profile"
             onClick={toggleMenu}
@@ -78,14 +85,14 @@ const Header: React.FC = () => {
           >
             Disconnect&nbsp;🚪
           </button>
-          <button
+          {/* <button
             onClick={() => {
               openOverlay('ranking');
               toggleMenu();
             }}
           >
             Classements&nbsp;🏆
-          </button>
+          </button> */}
         </div>
       </nav>
     </header>

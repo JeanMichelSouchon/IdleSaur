@@ -79,15 +79,6 @@ export const flyEvents: DynamicEventData[] = [
         additiveIncrement: 0,
         multiplicativeStep: 0,
         multiplicativeIncrement: 0
-      },
-      {
-        source: "fly",
-        target: "experience",
-        base_value: 1500,
-        additiveStep: 5,
-        additiveIncrement: 300,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
       }
     ]
   },
@@ -203,15 +194,6 @@ export const flyEvents: DynamicEventData[] = [
         additiveIncrement: 0,
         multiplicativeStep: 0,
         multiplicativeIncrement: 0
-      },
-      {
-        source: "fly",
-        target: "experience",
-        base_value: 10,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
       }
     ]
   },
@@ -230,15 +212,6 @@ export const flyEvents: DynamicEventData[] = [
       "Une fin de vol dramatique, où la chute révèle un trésor de 10 armes et 10 armures oubliées."
     ],
     baseModifiers: [
-      {
-        source: "fly",
-        target: "experience",
-        base_value: 10,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      },
       {
         source: "fly",
         target: "experience",
@@ -273,15 +246,6 @@ export const flyEvents: DynamicEventData[] = [
         additiveIncrement: 0,
         multiplicativeStep: 0,
         multiplicativeIncrement: 0
-      },
-      {
-        source: "fly",
-        target: "experience",
-        base_value: 1,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
       }
     ]
   },
@@ -304,15 +268,6 @@ export const flyEvents: DynamicEventData[] = [
         source: "fly",
         target: "experience",
         base_value: 10,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      },
-      {
-        source: "fly",
-        target: "experience",
-        base_value: 2,
         additiveStep: 0,
         additiveIncrement: 0,
         multiplicativeStep: 0,

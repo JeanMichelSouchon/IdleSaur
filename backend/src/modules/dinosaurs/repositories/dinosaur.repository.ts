@@ -4,7 +4,6 @@ import { RowDataPacket } from 'mysql2';
 import { Epoch } from '../models/epoch.enum';
 import { DinosaurType } from '../models/dinosaur-type.interface';
 import { DinosaurDiet } from '../models/dinosaur-diet.interface';
-import { DinosaurGameAssetsRepository } from './dinosaur-game-assets.repository';
 import { DinosaurLivesRepository } from './dinosaur-lives.repository';
 
 // Fonction utilitaire pour parser uniquement si la valeur est une chaîne
@@ -20,14 +19,11 @@ const parseIfString = (value: any): any => {
  * ainsi que l'historique des vies du dinosaure.
  */
 export class DinosaurRepository {
-  private gameAssetsRepo: DinosaurGameAssetsRepository;
   private livesRepo: DinosaurLivesRepository;
 
   constructor(
-    gameAssetsRepo: DinosaurGameAssetsRepository,
     dinosaurLivesRepository: DinosaurLivesRepository
   ) {
-    this.gameAssetsRepo = gameAssetsRepo;
     this.livesRepo = dinosaurLivesRepository;
   }
 
@@ -68,15 +64,9 @@ export class DinosaurRepository {
         energy: row.energy,
         food: row.food,
         hunger: row.hunger,
-        weapons: row.weapons,
-        armors: row.armors,
-        friends: row.friends,
-        employees: row.employees,
         karma: row.karma,
         experience: row.experience,
         level: row.level,
-        money: row.money,
-        skill_points: row.skill_points,
         epoch: row.epoch as Epoch,
         created_at: row.created_at,
         last_reborn: new Date(row.last_reborn),
@@ -86,26 +76,10 @@ export class DinosaurRepository {
         last_update_by_time_service: new Date(row.last_update_by_time_service),
         is_sleeping: row.is_sleeping,
         is_dead: row.is_dead,
-        skills: [],
-        items: [],
-        buildings: [],
-        lives: [], // Historique des vies du dinosaure
-        soul_skills: [] // Ajout des Soul Skills
+        lives: [] // Historique des vies du dinosaure
       };
 
-      // Récupérer en parallèle les assets et l'historique des vies du dinosaure
-      const [skillInstances, itemInstances, buildingInstances, lives] = await Promise.all([
-        this.gameAssetsRepo.getSkillInstancesByDinosaurId(dinosaurId),
-        this.gameAssetsRepo.getItemInstancesByDinosaurId(dinosaurId),
-        this.gameAssetsRepo.getBuildingInstancesByDinosaurId(dinosaurId),
-        this.livesRepo.getDinosaurLivesByDinosaurId(dinosaurId)
-      ]);
-      const soulSkillInstances = await this.gameAssetsRepo.getSoulSkillInstancesByDinosaurId(dinosaurId);
-      dinosaur.skills = skillInstances;
-      dinosaur.items = itemInstances;
-      dinosaur.buildings = buildingInstances;
-      dinosaur.lives = lives;
-      dinosaur.soul_skills = soulSkillInstances;
+
       return dinosaur;
     } catch (err) {
       console.error('Erreur lors de la récupération du dinosaure par ID:', err);
@@ -147,15 +121,9 @@ export class DinosaurRepository {
         energy: row.energy,
         food: row.food,
         hunger: row.hunger,
-        weapons: row.weapons,
-        armors: row.armors,
-        friends: row.friends,
-        employees: row.employees,
         karma: row.karma,
         experience: row.experience,
         level: row.level,
-        money: row.money,
-        skill_points: row.skill_points,
         epoch: row.epoch as Epoch,
         created_at: row.created_at,
         last_reborn: new Date(row.last_reborn),
@@ -164,24 +132,9 @@ export class DinosaurRepository {
         last_update_by_time_service: new Date(row.last_update_by_time_service),
         is_sleeping: row.is_sleeping,
         is_dead: row.is_dead,
-        skills: [],
-        items: [],
-        buildings: [],
-        lives: [],
-        soul_skills: []
+        lives: []
       };
-      const [skillInstances, itemInstances, buildingInstances, lives] = await Promise.all([
-        this.gameAssetsRepo.getSkillInstancesByDinosaurId(row.id),
-        this.gameAssetsRepo.getItemInstancesByDinosaurId(row.id),
-        this.gameAssetsRepo.getBuildingInstancesByDinosaurId(row.id),
-        this.livesRepo.getDinosaurLivesByDinosaurId(row.id)
-      ]);
-      const soulSkillInstances = await this.gameAssetsRepo.getSoulSkillInstancesByDinosaurId(row.id);
-      dinosaur.skills = skillInstances;
-      dinosaur.items = itemInstances;
-      dinosaur.buildings = buildingInstances;
-      dinosaur.lives = lives;
-      dinosaur.soul_skills = soulSkillInstances;
+
       return dinosaur;
     } catch (err) {
       console.error('Erreur lors de la récupération du dinosaure par userId:', err);
@@ -200,12 +153,6 @@ export class DinosaurRepository {
         "karma",
         "experience",
         "level",
-        "money",
-        "skill_points",
-        "weapons",
-        "armors",
-        "friends",
-        "employees",
         "epoch",
         "created_at",
         "last_reborn",
@@ -282,9 +229,9 @@ export class DinosaurRepository {
   
   public async createDinosaur(dinosaur: DatabaseDinosaur): Promise<DatabaseDinosaur | null> {
     const query = `INSERT INTO dinosaurs 
-      (name, user_id, diet_id, type_id, energy, food, hunger, weapons, armors, friends, employees, karma, experience, level, money, skill_points, epoch,
+      (name, user_id, diet_id, type_id, energy, food, hunger, karma, experience, level, epoch,
        created_at, last_reborn, death_date, reborn_amount, last_update_by_time_service, is_sleeping, is_dead)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;  
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;  
 
     const values = [
       dinosaur.name,
@@ -294,15 +241,9 @@ export class DinosaurRepository {
       dinosaur.energy,
       dinosaur.food,
       dinosaur.hunger,
-      dinosaur.weapons,
-      dinosaur.armors,
-      dinosaur.friends,
-      dinosaur.employees,
       dinosaur.karma,
       dinosaur.experience,
       dinosaur.level,
-      dinosaur.money,
-      dinosaur.skill_points,
       dinosaur.epoch,
       dinosaur.created_at,
       dinosaur.last_reborn,
@@ -334,15 +275,9 @@ interface DatabaseDinosaurDataRow extends RowDataPacket {
   energy: number;
   food: number;
   hunger: number;
-  weapons: number;
-  armors: number;
-  friends: number;
-  employees: number;
   karma: number;
   experience: number;
   level: number;
-  money: number;
-  skill_points: number;
   epoch: string;
   
   created_at: Date;

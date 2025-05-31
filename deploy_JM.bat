@@ -80,7 +80,7 @@ call gcloud run deploy backend-service ^
   --platform managed ^
   --allow-unauthenticated ^
   --port 3000 ^
-  --set-env-vars DB_HOST=/cloudsql/iddlesaur-452708:europe-west9:iddlesaur,DB_USER=myuser,DB_PASSWORD=mypassword,DB_NAME=iddlesaur,JWT_SECRET=mySuperSecretKey,DEFAULT_ADMIN_NAME=admin,DEFAULT_ADMIN_PASSWORD=password ^
+  --set-env-vars DB_HOST=/cloudsql/iddlesaur-452708:europe-west9:iddlesaur,DB_USER=myuser,DB_PASSWORD=mypassword,DB_NAME=iddlesaur,JWT_SECRET=mySuperSecretKey,DEFAULT_ADMIN_NAME=Idlesaur,DEFAULT_ADMIN_PASSWORD=admin123 ^
   --add-cloudsql-instances=iddlesaur-452708:europe-west9:iddlesaur ^
   --timeout=300s
 if errorlevel 1 (

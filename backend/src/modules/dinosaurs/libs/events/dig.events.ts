@@ -168,15 +168,6 @@ export const digEvents: DynamicEventData[] = [
         additiveIncrement: 2000,
         multiplicativeStep: 0,
         multiplicativeIncrement: 0
-      },
-      {
-        source: "dig",
-        target: "experience",
-        base_value: 50,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
       }
     ]
   },
@@ -195,15 +186,6 @@ export const digEvents: DynamicEventData[] = [
       "Une exploration souterraine ratée qui se solde par un butin inattendu d'armes et d'armures."
     ],
     baseModifiers: [
-      {
-        source: "dig",
-        target: "experience",
-        base_value: 10,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      },
       {
         source: "dig",
         target: "experience",
@@ -273,15 +255,6 @@ export const digEvents: DynamicEventData[] = [
         additiveIncrement: 0,
         multiplicativeStep: 0,
         multiplicativeIncrement: 0
-      },
-      {
-        source: "dig",
-        target: "experience",
-        base_value: 1,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
       }
     ]
   },
@@ -304,15 +277,6 @@ export const digEvents: DynamicEventData[] = [
         source: "dig",
         target: "experience",
         base_value: 10,
-        additiveStep: 0,
-        additiveIncrement: 0,
-        multiplicativeStep: 0,
-        multiplicativeIncrement: 0
-      },
-      {
-        source: "dig",
-        target: "experience",
-        base_value: 2,
         additiveStep: 0,
         additiveIncrement: 0,
         multiplicativeStep: 0,

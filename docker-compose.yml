@@ -30,8 +30,8 @@ services:
       DB_PASSWORD: mypassword
       DB_NAME: iddlesaur
       JWT_SECRET: mySuperSecretKey
-      DEFAULT_ADMIN_NAME: admin
-      DEFAULT_ADMIN_PASSWORD: password
+      DEFAULT_ADMIN_NAME: Idlesaur
+      DEFAULT_ADMIN_PASSWORD: admin123
     networks:
       - backend-network
 

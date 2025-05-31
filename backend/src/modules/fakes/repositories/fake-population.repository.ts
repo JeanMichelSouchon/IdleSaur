@@ -49,15 +49,9 @@ export class FakePopulationRepository {
     energy: number;
     food: number;
     hunger: number;
-    weapons: number;
-    armors: number;
-    friends: number;
-    employees: number;
     karma: number;
     experience: number;
     level: number;
-    money: number;
-    skill_points: number;
     epoch: string;
     created_at: string;
     last_reborn: string;
@@ -68,8 +62,8 @@ export class FakePopulationRepository {
   }): Promise<number> {
     const query = `
       INSERT INTO dinosaurs
-      (name, user_id, diet_id, type_id, energy, food, hunger, weapons, armors, friends, employees, karma, experience, level, money, skill_points, epoch, created_at, last_reborn, reborn_amount, last_update_by_time_service, is_sleeping, is_dead)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      (name, user_id, diet_id, type_id, energy, food, karma, experience, level, epoch, created_at, last_reborn, reborn_amount, last_update_by_time_service, is_sleeping, is_dead)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const values = [
       dino.name,
@@ -79,15 +73,9 @@ export class FakePopulationRepository {
       dino.energy,
       dino.food,
       dino.hunger,
-      dino.weapons,
-      dino.armors,
-      dino.friends,
-      dino.employees,
       dino.karma,
       dino.experience,
       dino.level,
-      dino.money,
-      dino.skill_points,
       dino.epoch,
       dino.created_at,
       dino.last_reborn,
@@ -138,97 +126,4 @@ export class FakePopulationRepository {
     return resAny.insertId;
   }
 
-  /**
-   * Insère une instance de skill pour un dinosaure dans la table `dinosaur_skills_instance`.
-   */
-  public async createFakeSkillInstance(instance: {
-    dinosaur_id: number;
-    skill_id: number;
-    is_purchased: boolean;
-    is_active?: boolean;
-    last_activated_at?: string;
-  }): Promise<void> {
-    const query = `
-      INSERT INTO dinosaur_skills_instance
-      (dinosaur_id, skill_id, is_purchased, is_active, last_activated_at)
-      VALUES (?, ?, ?, ?, ?)
-    `;
-    const values = [
-      instance.dinosaur_id,
-      instance.skill_id,
-      instance.is_purchased ? 1 : 0,
-      instance.is_active ? 1 : 0,
-      instance.last_activated_at || null
-    ];
-    await pool.query(query, values);
-  }
-
-  /**
-   * Insère une instance d'item pour un dinosaure dans la table `dinosaur_items_instance`.
-   */
-  public async createFakeItemInstance(instance: {
-    dinosaur_id: number;
-    item_id: number;
-    current_level_or_quantity: number;
-    is_equipped?: boolean;
-  }): Promise<void> {
-    const query = `
-      INSERT INTO dinosaur_items_instance
-      (dinosaur_id, item_id, current_level_or_quantity, is_equipped)
-      VALUES (?, ?, ?, ?)
-    `;
-    const values = [
-      instance.dinosaur_id,
-      instance.item_id,
-      instance.current_level_or_quantity,
-      instance.is_equipped ? 1 : 0
-    ];
-    await pool.query(query, values);
-  }
-
-  /**
-   * Insère une instance de building pour un dinosaure dans la table `dinosaur_buildings_instance`.
-   */
-  public async createFakeBuildingInstance(instance: {
-    dinosaur_id: number;
-    building_id: number;
-    current_level: number;
-    purchased_upgrades?: object;
-  }): Promise<void> {
-    const query = `
-      INSERT INTO dinosaur_buildings_instance
-      (dinosaur_id, building_id, current_level, purchased_upgrades)
-      VALUES (?, ?, ?, ?)
-    `;
-    const values = [
-      instance.dinosaur_id,
-      instance.building_id,
-      instance.current_level,
-      JSON.stringify(instance.purchased_upgrades || {})
-    ];
-    await pool.query(query, values);
-  }
-
-  /**
-   * Insère une instance de soul skill pour un dinosaure dans la table `dinosaur_soul_skills_instance`.
-   */
-  public async createFakeSoulSkillInstance(instance: {
-    dinosaur_id: number;
-    soul_skill_id: number;
-    is_unlocked?: boolean;
-    purchased_at?: string;
-  }): Promise<void> {
-    const query = `
-      INSERT INTO dinosaur_soul_skills_instance
-      (dinosaur_id, soul_skill_id, is_unlocked, purchased_at)
-      VALUES (?, ?, ?, ?)
-    `;
-    const values = [
-      instance.dinosaur_id,
-      instance.soul_skill_id,
-      instance.is_unlocked ? 1 : 0,
-      instance.purchased_at || null
-    ];
-    await pool.query(query, values);
-  }
 }

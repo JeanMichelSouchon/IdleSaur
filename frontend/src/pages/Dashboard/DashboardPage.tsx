@@ -166,17 +166,18 @@ const DashboardPage: React.FC = () => {
                     </div>
                     <div className="bottomMiddle" style={{ position: 'relative' }}>
                         {/* Insertion des icones de toogle d'overlays */}
-                        {dinosaur && (
+                        {dinosaur 
+                        && (
                             <div className="overlay-icons-bar">
 
                             {/* 1) Dino Soul Overlay */}
-                            <span
+                            {/* <span
                                 className="overlay-icon"
                                 onClick={() => openOverlay('dino-soul')}
                                 title="Dino Soul"
                             >
                                 💀
-                            </span>
+                            </span> */}
                             </div>
                         )}
                         {/* La div "middleContent" reçoit un style inline pour position relative */}

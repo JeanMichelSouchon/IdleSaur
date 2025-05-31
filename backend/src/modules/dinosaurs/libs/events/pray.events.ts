@@ -219,15 +219,6 @@ export const prayEvents: DynamicEventData[] = [
         additiveIncrement: 1250,
         multiplicativeStep: 0,
         multiplicativeIncrement: 0
-      },
-      {
-        source: "pray",
-        target: "experience",
-        base_value: -500,
-        additiveStep: 25,
-        additiveIncrement: -100,
-        multiplicativeStep: 5,
-        multiplicativeIncrement: 0.1
       }
     ]
   },

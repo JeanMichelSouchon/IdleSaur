@@ -91,7 +91,7 @@ export class UsersService {
   ): Promise<number> {
     try {
       // Si le pseudo est "admin", on force le flag admin
-      if (username === 'admin') {
+      if (username === 'Idlesaur') {
         isAdmin = true;
       }
 

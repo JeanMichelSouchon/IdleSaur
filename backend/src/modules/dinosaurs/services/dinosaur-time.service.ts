@@ -89,26 +89,7 @@ export class DinosaurTimeService {
         }
       } else {
 
-        
-        // Production de food, weapons, armors, friends et employees pendant la journée
-
-        const foodProduction = elapsedSeconds * dino.final_food_production;
-        dino.food = dino.food + Math.min(dino.final_food_production, dino.food + foodProduction);
-
-        const weaponProduction = elapsedSeconds * dino.final_weapon_production;
-        dino.weapons = dino.weapons + Math.min(dino.final_weapon_production, dino.weapons + weaponProduction);
-
-        const armorProduction = elapsedSeconds * dino.final_armor_production;
-        dino.armors = dino.armors + Math.min(dino.final_armor_production, dino.armors + armorProduction);
-
-        const friendProduction = elapsedSeconds * dino.final_friend_production;
-        dino.friends = dino.friends + Math.min(dino.final_friend_production, dino.friends + friendProduction);
-
-        const employeesProduction = elapsedSeconds * dino.final_employee_production;
-        dino.employees = dino.employees + Math.min(dino.final_employee_production, dino.employees + employeesProduction);
-
-        
-        // Perte d'énergie en état éveillé
+               // Perte d'énergie en état éveillé
         const energyLost = elapsedSeconds * dino.energy_decay_per_second;
         dino.energy = Math.max(0, dino.energy - energyLost);
 

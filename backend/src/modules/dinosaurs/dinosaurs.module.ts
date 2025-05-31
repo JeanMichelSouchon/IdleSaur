@@ -13,10 +13,7 @@ import dinosaursRoutes from './routes/dinosaurs.routes';
 import { DinosaurRepository } from './repositories/dinosaur.repository';
 import { DinosaurMiddleware } from './middlewares/dinosaur.middleware';
 import { DynamicEventRepository } from './repositories/dynamic-event.repository';
-import { DinosaurGameAssetsRepository } from './repositories/dinosaur-game-assets.repository';
 import { DinosaurFactory } from './factories/dinosaur.factory';
-import { GameplayController } from './controllers/gameplay.controller';
-import { GameplayService } from './services/gameplay.service';
 import { DinosaurLivesRepository } from './repositories/dinosaur-lives.repository';
 import { AfterlifeService } from './services/afterlife.service';
 import { DinosaurEventService } from './services/dinosaur-event.service';
@@ -40,7 +37,6 @@ export class DinosaursModule {
   private carnivoreActionsService: CarnivoreActionsService;
   private herbivoreActionsService: HerbivoreActionsService;
   private advancedActionsService: AdvancedActionsService;
-  private gameplayService: GameplayService;
   private afterlifeService: AfterlifeService;
   private dinosaurEventService: DinosaurEventService;
 
@@ -50,16 +46,14 @@ export class DinosaursModule {
   private carnivoreActionsController: CarnivoreActionsController;
   private herbivoreActionsController: HerbivoreActionsController;
   private advancedActionsController: AdvancedActionsController;
-  private gameplayController: GameplayController;
 
   // Middlewares
   private dinosaurMiddleware: DinosaurMiddleware;
 
   constructor() {
     // Instanciation du repository d'assets
-    const gameAssetsRepo = new DinosaurGameAssetsRepository();
     const dinosaurLivesRepository = new DinosaurLivesRepository();
-    const dinosaurRepository = new DinosaurRepository(gameAssetsRepo, dinosaurLivesRepository);
+    const dinosaurRepository = new DinosaurRepository(dinosaurLivesRepository);
     const dinosaurFactory = new DinosaurFactory(dinosaurRepository);
     const dynamicEventRepository = new DynamicEventRepository();
     const playerScoreRepository = new PlayerScoreRepository();
@@ -76,7 +70,6 @@ export class DinosaursModule {
     this.carnivoreActionsService = new CarnivoreActionsService(dinosaurRepository, this.dinosaurEventService);
     this.herbivoreActionsService = new HerbivoreActionsService(dinosaurRepository, this.dinosaurEventService);
     this.advancedActionsService = new AdvancedActionsService(dinosaurRepository, this.dinosaurEventService);
-    this.gameplayService = new GameplayService(dinosaurRepository, dinosaurFactory);
 
     // Initialisation du time service.
     this.dinosaurTimeService = new DinosaurTimeService(this.basicActionsService);
@@ -87,7 +80,6 @@ export class DinosaursModule {
     this.carnivoreActionsController = new CarnivoreActionsController(this.carnivoreActionsService);
     this.herbivoreActionsController = new HerbivoreActionsController(this.herbivoreActionsService);
     this.advancedActionsController = new AdvancedActionsController(this.advancedActionsService);
-    this.gameplayController = new GameplayController(this.gameplayService);
 
     // Initialisation du middleware
     this.dinosaurMiddleware = new DinosaurMiddleware(dinosaurRepository, this.dinosaurTimeService, dinosaurFactory);
@@ -99,7 +91,6 @@ export class DinosaursModule {
       this.carnivoreActionsController,
       this.herbivoreActionsController,
       this.advancedActionsController,
-      this.gameplayController,
       this.dinosaurMiddleware
     );
   }

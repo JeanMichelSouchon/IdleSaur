@@ -7,7 +7,7 @@ import { DynamicEventRepository } from '../repositories/dynamic-event.repository
 import { DynamicEvent } from '../models/dynamic-event';
 import { AfterlifeService } from './afterlife.service';
 import { DinosaurFactory } from '../factories/dinosaur.factory';
-import { getExperienceThresholdForLevel, getSkillPointsForLevel } from '../utils/levelThresholds';
+import { getExperienceThresholdForLevel } from '../utils/levelThresholds';
 import { DynamicEventData } from '../models/dynamic-event-data.interface';
 
 /**
@@ -228,7 +228,6 @@ export class DinosaurEventService {
     while (dinosaur.experience >= experienceThreshold) {
       dinosaur.level += 1;
       dinosaur.experience -= experienceThreshold;
-      dinosaur.skill_points += getSkillPointsForLevel(dinosaur.level);
       experienceThreshold = getExperienceThresholdForLevel(dinosaur.level + 1);
     }
 

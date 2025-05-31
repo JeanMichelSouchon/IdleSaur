@@ -41,18 +41,18 @@
 /****************************************
  * Le titre "IdleSaur🦖"
  ****************************************/
-.Title {
+/* .Title {
     margin: 0;
     padding: 5px 10px;
     border: 2px solid black;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.8);
-    font-size: 1.4rem; /* un peu plus grand */
+    font-size: 1.4rem;
     font-weight: bold;
     text-align: center;
     white-space: nowrap; 
     box-shadow: 2px 2px 4px rgba(0,0,0,0.15);
-}
+} */
 
 /****************************************
  * Apparence hover sur les boutons

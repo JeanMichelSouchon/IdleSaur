@@ -1,4 +1,4 @@
-export type DynamicEventModifierTarget = 'energy' | 'food' | 'hunger' | 'experience' | 'karma' | 'money' | 'skillPoints' | 'weapons' | 'armors' | 'friends' | 'employees';
+export type DynamicEventModifierTarget = 'energy' | 'food' | 'hunger' | 'experience' | 'karma' ;
 
 /**
  * Interface représentant un modificateur pour un DynamicEvent.

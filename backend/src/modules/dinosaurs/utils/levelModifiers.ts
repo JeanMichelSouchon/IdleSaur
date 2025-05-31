@@ -56,16 +56,7 @@ export const getLevelModifiers = (level: number): StatModifier[] => {
     });
   }
 
-  // Earn skill point multiplier : à partir du lvl 10, +10% tous les 5 niveaux.
-  if (level >= 10) {
-    const increments = Math.floor((level - 10) / 5) + 1;
-    modifiers.push({
-      source: "level",
-      type: "multiplicative",
-      value: 0.10 * increments,
-      target: "earn_skill_point_multiplier"
-    });
-  }
+
 
   // Réduction du hunger_increase_multiplier : à partir du lvl 25, réduction de 25% tous les 25 niveaux
   if (level >= 25) {

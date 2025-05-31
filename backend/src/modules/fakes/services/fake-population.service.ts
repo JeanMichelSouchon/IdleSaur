@@ -21,11 +21,6 @@ const computeLevel = (xp: number): number => {
 
 const formatSqlDate = (date: Date): string => date.toISOString().slice(0, 19).replace('T', ' ');
 
-// Constantes pour le nombre d'assets insérés par défaut
-const DEFAULT_SKILL_COUNT = 10;
-const DEFAULT_ITEM_COUNT = 10;
-const DEFAULT_BUILDING_COUNT = 5;
-const DEFAULT_SOUL_SKILL_COUNT = 5;
 
 const availableEpochs: Epoch[] = [
   Epoch.Prehistoric_Epoch1, Epoch.Prehistoric_Epoch2, Epoch.Prehistoric_Epoch3, Epoch.Prehistoric_Epoch4,
@@ -126,12 +121,6 @@ export class FakePopulationService {
       const hunger = DINOSAUR_CONSTANTS.INITIAL_HUNGER;
       const experience = randomInt(XP_MIN, XP_MAX + 1);
       const level = computeLevel(experience);
-      const money = Math.round(1000 + computeExponentialValue(experience, 0, 4000));
-      const weapons = Math.round(computeExponentialValue(experience, 0, 20));
-      const armors = Math.round(computeExponentialValue(experience, 0, 20));
-      const friends = Math.round(computeExponentialValue(experience, 0, 50));
-      const employees = Math.round(computeExponentialValue(experience, 0, 20));
-      const skill_points = Math.round(computeExponentialValue(experience, 0, 100));
       const epoch = availableEpochs[randomInt(0, availableEpochs.length)];
 
       try {
@@ -143,15 +132,9 @@ export class FakePopulationService {
           energy,
           food,
           hunger,
-          weapons,
-          armors,
-          friends,
-          employees,
           karma: randomInt(-DINOSAUR_CONSTANTS.KARMA_WIDTH, DINOSAUR_CONSTANTS.KARMA_WIDTH + 1),
           experience,
           level,
-          money,
-          skill_points,
           epoch,
           created_at: nowSql,
           last_reborn: nowSql,
@@ -186,60 +169,7 @@ export class FakePopulationService {
           });
         }
 
-        // Création des assets
-        const skillsCount = randomInt(0, 4);
-        const chosenSkillIds = new Set<number>();
-        while (chosenSkillIds.size < skillsCount) {
-          chosenSkillIds.add(randomInt(1, DEFAULT_SKILL_COUNT + 1));
-        }
-        for (const skillId of chosenSkillIds) {
-          await this.repo.createFakeSkillInstance({
-            dinosaur_id: dinoId,
-            skill_id: skillId,
-            is_purchased: true
-          });
-        }
-
-        const itemsCount = randomInt(0, 4);
-        const chosenItemIds = new Set<number>();
-        while (chosenItemIds.size < itemsCount) {
-          chosenItemIds.add(randomInt(1, DEFAULT_ITEM_COUNT + 1));
-        }
-        for (const itemId of chosenItemIds) {
-          await this.repo.createFakeItemInstance({
-            dinosaur_id: dinoId,
-            item_id: itemId,
-            current_level_or_quantity: randomInt(1, 6),
-            is_equipped: Math.random() < 0.5
-          });
-        }
-
-        const buildingsCount = randomInt(0, 3);
-        const chosenBuildingIds = new Set<number>();
-        while (chosenBuildingIds.size < buildingsCount) {
-          chosenBuildingIds.add(randomInt(1, DEFAULT_BUILDING_COUNT + 1));
-        }
-        for (const buildingId of chosenBuildingIds) {
-          await this.repo.createFakeBuildingInstance({
-            dinosaur_id: dinoId,
-            building_id: buildingId,
-            current_level: randomInt(1, 4)
-          });
-        }
-
-        const soulSkillsCount = randomInt(0, 3);
-        const chosenSoulSkillIds = new Set<number>();
-        while (chosenSoulSkillIds.size < soulSkillsCount) {
-          chosenSoulSkillIds.add(randomInt(1, DEFAULT_SOUL_SKILL_COUNT + 1));
-        }
-        for (const soulSkillId of chosenSoulSkillIds) {
-          await this.repo.createFakeSoulSkillInstance({
-            dinosaur_id: dinoId,
-            soul_skill_id: soulSkillId,
-            is_unlocked: true,
-            purchased_at: nowSql
-          });
-        }
+       
       } catch (error) {
         console.error(`Erreur lors de la création du dinosaure ${name} :`, error);
       }

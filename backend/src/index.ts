@@ -15,7 +15,6 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { DinosaursModule } from './modules/dinosaurs/dinosaurs.module';
-import { GameAssetsModule } from './modules/game-assets/game-assets.module';
 import { errorHandlerMiddleware } from './common/middlewares/errorHandler';
 import pool from './common/database/db';
 import { FakesModule } from './modules/fakes/fakes.module';
@@ -43,7 +42,6 @@ const usersModule = new UsersModule();
 const authModule = new AuthModule();
 const adminModule = new AdminModule();
 const dinosaursModule = new DinosaursModule();
-const gameAssetsModule = new GameAssetsModule(dinosaursModule.getDinosaurMiddleware());
 const fakesModule = new FakesModule();
 
 // Routes
@@ -51,7 +49,6 @@ app.use('/auth', authModule.router);
 app.use('/users', usersModule.router);
 app.use('/admin', adminModule.router);
 app.use('/dinosaurs', dinosaursModule.router);
-app.use('/game-assets', gameAssetsModule.router);
 
 // Exemple de route pour tester Sentry
 app.get("/debug-sentry", function mainHandler(req, res) {
@@ -91,9 +88,6 @@ waitForDatabaseReady()
     // Une fois la DB prête, on lance le seed pour les deux modules
     await authModule.populateDefaultAdmins().catch(err => {
       console.error("Erreur lors du seed des administrateurs par défaut:", err);
-    });
-    await gameAssetsModule.seedGameAssets().catch(err => {
-      console.error("Erreur lors du seed des Game Assets:", err);
     });
     await dinosaursModule.seedDinosaurs().catch(err => {
       console.error("Erreur lors du seed des Dynamic Events (Dinosaurs):", err);

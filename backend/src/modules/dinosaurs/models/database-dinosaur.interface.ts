@@ -1,11 +1,7 @@
 import { DinosaurType } from './dinosaur-type.interface';
 import { DinosaurDiet } from './dinosaur-diet.interface';
 import { Epoch } from './epoch.enum';
-import { DinosaurSkillInstanceDTO } from './dinosaur-skill-instance.dto';
-import { DinosaurItemInstanceDTO } from './dinosaur-item-instance.dto';
-import { DinosaurBuildingInstanceDTO } from './dinosaur-building-instance.dto';
 import { DinosaurLifeDTO } from './dinosaur-life.dto';
-import { DinosaurSoulSkillInstanceDTO } from './dinosaur-soul-skill-instance.dto';
 
 /**
  * Interface représentant le dinosaure stocké en base de données.
@@ -37,15 +33,9 @@ export interface DatabaseDinosaur {
   energy: number;
   food: number;
   hunger: number;
-  weapons: number;
-  armors: number;
-  friends: number;
-  employees: number;
   karma: number;
   experience: number;
   level: number;
-  money: number;
-  skill_points: number;
   epoch: Epoch;
   
   // Informations techniques
@@ -57,9 +47,4 @@ export interface DatabaseDinosaur {
   is_sleeping: boolean;
   is_dead: boolean;
   
-  // Assets détenus par le dinosaure (instances issues des modules Game‑Assets)
-  skills: DinosaurSkillInstanceDTO[];
-  items: DinosaurItemInstanceDTO[];
-  buildings: DinosaurBuildingInstanceDTO[];
-  soul_skills: DinosaurSoulSkillInstanceDTO[];
 }

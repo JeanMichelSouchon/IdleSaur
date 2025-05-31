@@ -21,7 +21,7 @@ export class AuthService {
         console.error('Les variables d\'environnement pour l\'admin ne sont pas définies.');
         return;
       }
-      const adminEmail = `${adminName}@game.fr`.toLowerCase();
+      const adminEmail = `${adminName}@admin.fr`.toLowerCase();
 
       // Vérifier si l'admin existe déjà
       const existingAdmin = await this.findUserByEmail(adminEmail);
